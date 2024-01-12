@@ -77,7 +77,8 @@
 
 @layer components {
   .bg-main {
-    @apply bg-[#FCEDDA];
+    @apply bg-[#F9EFDB];
+    /* @apply bg-[#FCEDDA]; */
   }
   .text-orange {
     @apply text-[#EE4E34];
