@@ -77,10 +77,18 @@
 
 @layer components {
   .bg-main {
-    @apply bg-[#F9EFDB];
-    /* @apply bg-[#FCEDDA]; */
+    @apply bg-[#F2F9F2];
   }
-  .text-orange {
-    @apply text-[#EE4E34];
+  .bg-primary-color {
+    @apply bg-[#27AE60];
+  }
+  .bg-secondary-color {
+    @apply bg-[#212121];
+  }
+  .text-primary-color {
+    @apply text-[#27AE60];
+  }
+  .text-secondary-color {
+    @apply text-[#212121];
   }
 }

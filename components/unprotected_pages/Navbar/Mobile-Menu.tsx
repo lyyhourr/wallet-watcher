@@ -3,7 +3,6 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
 import React from "react";
 import NavbarRoute from "./Navbar-Route";
-import Link from "next/link";
 
 export default function MobileMenu() {
   return (
@@ -14,7 +13,7 @@ export default function MobileMenu() {
         </SheetTrigger>
         <SheetContent className="bg-main">
           <nav className="flex flex-col gap-5 mt-5">
-            <NavbarRoute />
+            <NavbarRoute isMobile />
           </nav>
         </SheetContent>
       </Sheet>

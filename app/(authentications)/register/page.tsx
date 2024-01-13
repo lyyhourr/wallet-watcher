@@ -1,7 +1,5 @@
-import React from 'react'
+import Register from '@/components/auth/ui/Register'
 
 export default function RegisterPage() {
-    return (
-        <div>RegisterPage</div>
-    )
+    return <Register />
 }

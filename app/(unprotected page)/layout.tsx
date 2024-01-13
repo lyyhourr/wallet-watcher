@@ -7,9 +7,9 @@ export default function UnprotectedpagesLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <div className="bg-main">
       <Navbar />
-      <main className=" mt-10">{children}</main>
+      <main className=" pt-20 ">{children}</main>
     </div>
   );
 }
