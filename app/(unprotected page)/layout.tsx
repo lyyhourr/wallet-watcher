@@ -9,7 +9,7 @@ export default function UnprotectedpagesLayout({
   return (
     <div className="bg-main">
       <Navbar />
-      <main className=" pt-20 ">{children}</main>
+      <main className="pt-20 lg:pt-10 ">{children}</main>
     </div>
   );
 }
