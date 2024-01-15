@@ -16,7 +16,7 @@ interface INavRoutes {
 export const navRoutes: INavRoutes[] = [
     {
         title: "Overview",
-        route: "/dashboard/overview",
+        route: "/overview",
         icon: <GrOverview />,
     },
     {
@@ -26,17 +26,17 @@ export const navRoutes: INavRoutes[] = [
     },
     {
         title: "History",
-        route: "/dashboard/history",
+        route: "/history",
         icon: <HistoryIcon />,
     },
     {
         title: "Setting",
-        route: "/dashboard/setting",
+        route: "/setting",
         icon: <Settings />,
     },
 ];
 
-export default function NavRoutes() {
+export default function SidebarRoutes() {
     const pathname = usePathname()
     return navRoutes.map((item, i) => (
         <Link key={i} href={item.route}

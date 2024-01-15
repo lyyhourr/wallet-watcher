@@ -1,5 +1,5 @@
 "use client"
-import { fontHeader, fontHero } from '@/fonts/Fonts';
+import { fontHeader, fontHero, inter } from '@/fonts/Fonts';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
@@ -42,7 +42,7 @@ const MonthSlider = () => {
                 </button>
             </section>
             <section className=' w-full bg-slate-200 rounded-md '>
-                <p className='text-center text-lg'>Year: 2024</p>
+                <p className={`${inter.className} text-center text-lg text-gray-500 pt-2`}> 2024 Transactions</p>
                 <div className='h-[300px] p-3 overflow-auto flex flex-col gap-4 bg-slate-100 m-4'>
                     {
                         numberArray.map((item, i) => (
@@ -53,18 +53,18 @@ const MonthSlider = () => {
                         ))
                     }
                 </div>
-                <div className='w-full flex justify-between px-5 pb-5'>
+                <div className={`${fontHeader.className} w-full py-1 flex justify-between px-7 text-lg `}>
                     <div className='flex flex-col items-center justify-center gap-2'>
                         <p>$10000</p>
-                        <p className='text-green-500'>INCOME</p>
+                        <p className=" text-green-500 tracking-wide">INCOME</p>
                     </div>
                     <div className='flex flex-col items-center justify-center gap-2'>
                         <p>$10000</p>
-                        <p className='text-red-500'>EXPENSE</p>
+                        <p className=" text-red-500 tracking-wide">EXPENSE</p>
                     </div>
                     <div className='flex flex-col items-center justify-center gap-2'>
                         <p>$10000</p>
-                        <p className='text-blue-500'>LEFT</p>
+                        <p className=" text-blue-500 tracking-wide">LEFT</p>
                     </div>
                 </div>
             </section>

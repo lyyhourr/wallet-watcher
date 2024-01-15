@@ -1,4 +1,4 @@
-import NavDashboard from '@/components/protected_pages/Dashboard_Navbar/NavDashboard'
+import NavDashboard from '@/components/protected_pages/Sidebar/Sidebar'
 import React from 'react'
 
 export default function Dashboard() {

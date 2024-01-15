@@ -12,5 +12,5 @@ export default function Middelware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard"],
+  matcher: ["/dashboard", "/history", "/overview", "/setting", "/user"],
 };
