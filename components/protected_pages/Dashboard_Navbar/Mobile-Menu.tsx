@@ -18,9 +18,9 @@ export default function MobileMenu() {
                 <div className='flex flex-col gap-5 h-full pt-10'>
                     {
                         navRoutes.map((item, i) => (
-                            <SheetClose asChild>
+                            <SheetClose asChild key={i}>
 
-                                <Link key={i} href={item.route}
+                                <Link href={item.route}
                                     className={cn('flex items-center gap-2 rounded-md pr-8 xl:pr-16 text-[#626C81]  pl-1 xl:pl-3  py-3 ',
                                         item.route === pathname && "bg-[#F6FEF9] text-[#11CD6F]"
                                     )}

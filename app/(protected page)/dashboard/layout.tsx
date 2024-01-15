@@ -4,9 +4,9 @@ import React from 'react'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className=' h-screen flex  flex-col lg:flex-row'>
+        <div className=' h-screen flex  flex-col lg:flex-row '>
             <NavDashboard />
-            <div className='w-full h-full p-4'>
+            <div className='w-full h-full p-4 overflow-auto'>
                 {children}
             </div>
         </div>

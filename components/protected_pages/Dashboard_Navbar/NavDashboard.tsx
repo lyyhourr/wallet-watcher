@@ -5,7 +5,7 @@ import Logo from "@/components/Logo";
 
 export default function NavDashboard() {
   return (
-    <nav className='flex lg:flex-col justify-between lg:justify-normal items-center lg:items-start lg:gap-20 p-3 lg:p-5 border-b lg:border-r border-gray-400 '>
+    <nav className='flex lg:flex-col justify-between lg:justify-normal items-center lg:items-start lg:gap-20 p-3 lg:p-5 border-b lg:border-b-0 lg:border-r border-gray-400 '>
       <section className='flex items-center justify-start lg:justify-center gap-3 w-full cursor-pointer'>
         <Logo />
         <p>name</p>
