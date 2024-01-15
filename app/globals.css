@@ -91,4 +91,15 @@
   .text-secondary-color {
     @apply text-[#212121];
   }
+  .bg-card-green {
+    @apply bg-[#32D583];
+  }
+  .bg-card-red {
+    @apply bg-[#FD3C4A];
+  }
+  .bg-card-blue {
+    @apply bg-[#0077FF];
+  }
+  .text-dasboard-color {
+  }
 }

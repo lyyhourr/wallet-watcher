@@ -15,14 +15,14 @@ interface INavRoutes {
 
 export const navRoutes: INavRoutes[] = [
     {
-        title: "Overview",
-        route: "/overview",
-        icon: <GrOverview />,
-    },
-    {
         title: "Dashbaord",
         route: "/dashboard",
         icon: <LayoutDashboard />,
+    },
+    {
+        title: "Overview",
+        route: "/overview",
+        icon: <GrOverview />,
     },
     {
         title: "History",

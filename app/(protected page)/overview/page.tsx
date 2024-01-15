@@ -1,43 +1,43 @@
+import Card from "@/components/protected_pages/Card";
 import MonthSlider from "@/components/protected_pages/overview/MonthSlide";
 import { fontHeader } from "@/fonts/Fonts";
 import { cn } from "@/lib/utils";
-import { DollarSign, GoalIcon } from "lucide-react";
 import React from "react";
 import { BiDollar } from "react-icons/bi";
 import { GiExpense, GiMoneyStack, GiStairsGoal } from "react-icons/gi";
 
-export default function DashbaordOverviewPage() {
+export default function DashbaordOverview() {
 
-  const Card = ({ header, amount, icon, background }: { header: string, amount: string, icon: any, background?: "green" | "red" | "blue" }) => (
-    <div className={cn("w-full  rounded-md lg:rounded-xl flex flex-col  gap-2 xl:gap-5 border-2 py-3 sm:py-7 md:py-10 items-center  justify-center",
-      background && "text-white",
-      background === "green" && "bg-[#32D583] ",
-      background === "blue" && "bg-[#0077FF] ",
-      background === "red" && "bg-[#FD3C4A]")}>
-      <div className="bg-gray-100 rounded-full w-fit ">
-        <p className={cn("text-center text-4xl md:text-5xl xl:text-6xl text-primary-color p-4",
-          background === "green" && "text-green-500",
-          background === "blue" && "text-blue-500",
-          background === "red" && "text-red-500",
-        )}>
-          {icon}
-        </p>
-      </div>
-      <div className={`${fontHeader.className} flex flex-col gap-2 text-center`}>
-        <p className={cn(`text-xl xl:text-3xl uppercase  tracking-wide`, !background && "text-gray-500")}>{header}</p>
-        <p className="text-2xl xl:text-4xl">{amount}$</p>
-      </div>
-    </div>
-  )
+  // const Card = ({ header, amount, icon, background }: { header: string, amount: string, icon: any, background?: "green" | "red" | "blue" }) => (
+  //   <div
+  //     className={cn("w-full  rounded-md lg:rounded-xl flex flex-col  gap-2 xl:gap-5 border-2 py-3 sm:py-7 md:py-10 items-center  justify-center",
+  //       background && `text-white bg-card-${background}`)
+  //     }>
+  //     <div className="bg-gray-100 rounded-full w-fit ">
+  //       <p className={cn("text-center text-4xl md:text-5xl xl:text-6xl text-primary-color p-4",
+  //         background === "green" && "text-green-500",
+  //         background === "blue" && "text-blue-500",
+  //         background === "red" && "text-red-500",
+  //       )}>
+  //         {icon}
+  //       </p>
+  //     </div>
+  //     <div className={`${fontHeader.className} flex flex-col gap-2 text-center`}>
+  //       <p className={cn(`text-xl xl:text-3xl uppercase  tracking-wide`, !background && "text-gray-500")}>{header}</p>
+  //       <p className="text-2xl xl:text-4xl">{amount}$</p>
+  //     </div>
+  //   </div>
+  // )
 
 
   return (
     <main className="w-full h-full flex flex-col  gap-4 ">
       <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-        {Card({ header: "Total Income", amount: "10000", icon: <BiDollar />, background: "green" })}
-        {Card({ header: "Total Expense", amount: "10000", icon: <GiExpense />, background: "red" })}
-        {Card({ header: "Balance", amount: "10000", icon: <GiMoneyStack />, background: "blue" })}
-        {Card({ header: "Goal", amount: "10000", icon: <GiStairsGoal /> })}
+        <Card title="Total Income" icon={<BiDollar />} amount="10000" background="green" />
+        <Card title="Total Expense" icon={<GiExpense />} amount="10000" background="red" />
+        <Card title="Total Balance" icon={<GiMoneyStack />} amount="10000" background="blue" />
+        <Card title=" Goal" icon={<GiStairsGoal />} amount="10000" />
+
       </section>
       <section className="flex flex-col xl:flex-row gap-2">
         <div className="w-full  ">
