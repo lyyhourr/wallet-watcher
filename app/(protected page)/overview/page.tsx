@@ -8,27 +8,6 @@ import { GiExpense, GiMoneyStack, GiStairsGoal } from "react-icons/gi";
 
 export default function DashbaordOverview() {
 
-  // const Card = ({ header, amount, icon, background }: { header: string, amount: string, icon: any, background?: "green" | "red" | "blue" }) => (
-  //   <div
-  //     className={cn("w-full  rounded-md lg:rounded-xl flex flex-col  gap-2 xl:gap-5 border-2 py-3 sm:py-7 md:py-10 items-center  justify-center",
-  //       background && `text-white bg-card-${background}`)
-  //     }>
-  //     <div className="bg-gray-100 rounded-full w-fit ">
-  //       <p className={cn("text-center text-4xl md:text-5xl xl:text-6xl text-primary-color p-4",
-  //         background === "green" && "text-green-500",
-  //         background === "blue" && "text-blue-500",
-  //         background === "red" && "text-red-500",
-  //       )}>
-  //         {icon}
-  //       </p>
-  //     </div>
-  //     <div className={`${fontHeader.className} flex flex-col gap-2 text-center`}>
-  //       <p className={cn(`text-xl xl:text-3xl uppercase  tracking-wide`, !background && "text-gray-500")}>{header}</p>
-  //       <p className="text-2xl xl:text-4xl">{amount}$</p>
-  //     </div>
-  //   </div>
-  // )
-
 
   return (
     <main className="w-full h-full flex flex-col  gap-4 ">

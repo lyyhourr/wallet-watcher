@@ -3,7 +3,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/compon
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { fontHeader } from '@/fonts/Fonts'
 import React, { useState } from 'react'
-import { ShoppingBagIcon } from 'lucide-react'
+import { MoreHorizontal, ShoppingBagIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { GiFastNoodles } from 'react-icons/gi'
 import { BsHouse } from 'react-icons/bs'
@@ -94,7 +94,7 @@ export default function DashboardTable() {
                                 <TableCell className='hidden md:block'>{item.date}</TableCell>
                                 <TableCell>
                                     <DropdownMenu>
-                                        <DropdownMenuTrigger className='text-xl flex items-center'>...</DropdownMenuTrigger>
+                                        <DropdownMenuTrigger className='text-xl flex items-center'><MoreHorizontal /></DropdownMenuTrigger>
                                         <DropdownMenuContent className='flex gap-1 items-center mr-2' side='bottom'>
                                             <Edit amount={item.amount} date={item.date} title={item.title} />
                                             <Delete />
