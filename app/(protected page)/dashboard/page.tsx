@@ -9,6 +9,7 @@ import { fontHeader, inter } from "@/fonts/Fonts";
 import { BiDollar } from "react-icons/bi";
 import { GiExpense } from "react-icons/gi";
 import { IoAddCircleOutline } from "react-icons/io5";
+import Image from "next/image";
 
 
 export default function Dashboard() {
@@ -36,10 +37,19 @@ export default function Dashboard() {
                     </div>
                     <DashboardTable />
                 </section>
-                <section className="hidden w-full lg:w-[350px] rounded-md bg-slate-100  xl:flex flex-col gap-2 p-10">
-                    <AddIncome />
-                    <AddExpense />
-                    <AddGoal />
+                <section className="hidden w-full lg:w-[350px] rounded-md bg-slate-50  xl:flex flex-col justify-between ">
+                    <div className="flex flex-col gap-2 py-10 px-2">
+                        <AddIncome />
+                        <AddExpense />
+                        <AddGoal />
+                    </div>
+                    <Image
+                        src={"/images/coin.png"}
+                        width={10000}
+                        height={10000}
+                        alt="saving img"
+                        className="w-[400px] mx-auto mt-auto"
+                    />
                 </section>
             </main>
         </div>

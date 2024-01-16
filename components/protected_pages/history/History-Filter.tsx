@@ -45,7 +45,7 @@ export default function HistoryFilter() {
                             <div className="flex items-center gap-5">
                                 {
                                     item.filter.map(fil => (
-                                        <button className={cn("w-[80px] py-1 rounded-md text-gray-500 bg-gray-200",
+                                        <button key={fil} className={cn("w-[80px] py-1 rounded-md text-gray-500 bg-gray-200",
                                             onFilter === fil && "text-white bg-card-green")}
                                             onClick={() => setOnFilter(fil)}>{fil}</button>
 
@@ -64,7 +64,7 @@ export default function HistoryFilter() {
                             <Button
                                 variant="outline"
                                 role="combobox"
-                                className="w-[140px] md:w-[200px] justify-between"
+                                className="w-[170px] md:w-[200px] justify-between"
                             >
                                 {onCate.length ? onCate : "Select Category"}
                                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
