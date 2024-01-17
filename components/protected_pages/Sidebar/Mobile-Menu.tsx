@@ -1,16 +1,25 @@
 "use client"
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { MenuIcon } from 'lucide-react'
-import React from 'react'
+import { MenuIcon, User } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
 import { navRoutes } from './Sidebar-Routes'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import UserAccount from './UserAccount'
 import { Logout } from './Logout'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 export default function MobileMenu() {
     const pathname = usePathname()
+    const supabase = createClientComponentClient()
+    const [email, setEmail] = useState<string | undefined>("")
+    useEffect(() => {
+        const getUser = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            setEmail(user?.email);
+        }
+        getUser()
+    }, [])
     return (
         <Sheet>
             <SheetTrigger>
@@ -36,7 +45,12 @@ export default function MobileMenu() {
                         ))
                     }
                     <div className=" flex flex-col  gap-4 mt-auto ">
-                        <UserAccount />
+                        <SheetClose asChild>
+                            <Link href={"/user"} className='flex justify-center w-full items-center gap-2'>
+                                <User />
+                                <p>{email}</p>
+                            </Link>
+                        </SheetClose>
                         <Logout />
                     </div>
                 </div>

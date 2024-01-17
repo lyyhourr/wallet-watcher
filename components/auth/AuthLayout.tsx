@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { fontHeader } from "@/fonts/Fonts";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
@@ -19,6 +17,9 @@ interface IAuthLayout {
 }
 
 export default function AuthLayout(props: IAuthLayout) {
+
+
+
   return (
     <main className="h-screen grid bg-main lg:grid-cols-5 overflow-hidden">
       <section className="hidden  border-black border-2 w-full col-span-2 lg:flex items-center bg-white justify-center ">
@@ -51,7 +52,7 @@ export default function AuthLayout(props: IAuthLayout) {
             </h5>
             {props.children}
           </div>
-          <div className="text-sm sm:text-base md:w-[550px] mx-auto">
+          <div className="text-xs sm:text-base md:w-[550px] mx-auto">
             <p className="text-gray-600  ">
               By {props.footerTitle}, I have read and I understand and agree to,
               The [web name]{" "}

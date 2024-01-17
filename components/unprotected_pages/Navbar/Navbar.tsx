@@ -2,8 +2,8 @@ import React from "react";
 import NavbarRoute from "./Navbar-Route";
 import MobileMenu from "./Mobile-Menu";
 import Link from "next/link";
-import UserAccount from "./User";
 import Logo from "@/components/Logo";
+import { User } from "lucide-react";
 
 export default function Navbar() {
   return (
@@ -13,7 +13,7 @@ export default function Navbar() {
         <NavbarRoute />
         <div className="flex items-center gap-3 text-white">
           <Link
-            href={"/login"}
+            href={"/dashboard"}
             className="bg-secondary-color px-5 py-2 rounded-md "
           >
             Login
@@ -27,7 +27,9 @@ export default function Navbar() {
         </div>
       </section>
       <section className="md:hidden flex  gap-3 ">
-        <UserAccount />
+        <Link href={"/user"}>
+          <User className="w-7 h-7" />
+        </Link>
         <MobileMenu />
       </section>
     </nav>

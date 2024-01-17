@@ -1,21 +1,28 @@
+"use client"
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
     DialogClose,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { inter } from "@/fonts/Fonts"
-import Link from "next/link"
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import { useRouter } from "next/navigation"
 
 export function Logout() {
+    const supabase = createClientComponentClient();
+    const router = useRouter()
+    const handleLogOut = async () => {
+        await supabase.auth.signOut();
+        router.refresh()
+    }
     return (
         <Dialog>
-            <DialogTrigger className="px-3  py-1 bg-red-600 rounded-md text-white">
+            <DialogTrigger className="px-3  py-1 bg-red-600 rounded-md text-white" >
                 Log out
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
@@ -26,11 +33,11 @@ export function Logout() {
                     </DialogDescription>
                 </DialogHeader>
                 <div className="flex justify-center gap-2">
-                    <Button asChild variant={"destructive"}>
-                        <Link href={"/"}>Log out</Link>
+                    <Button variant={"destructive"} onClick={handleLogOut}>
+                        Log out
                     </Button>
-                    <DialogClose asChild>
-                        <Button className="bg-gray-600" >Cancel</Button>
+                    <DialogClose >
+                        <Button className="bg-gray-400 " >Cancel</Button>
                     </DialogClose>
                 </div>
             </DialogContent>

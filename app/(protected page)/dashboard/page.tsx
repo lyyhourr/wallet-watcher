@@ -10,13 +10,19 @@ import { BiDollar } from "react-icons/bi";
 import { GiExpense } from "react-icons/gi";
 import { IoAddCircleOutline } from "react-icons/io5";
 import Image from "next/image";
+import { cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
 
-export default function Dashboard() {
+export default async function Dashboard() {
+    const cookieStore = cookies()
+    const supabase = createServerComponentClient({ cookies: () => cookieStore })
+    const { data: { user }, error } = await supabase.auth.getUser()
+    const name = user?.email?.substring(0, user?.email.indexOf("@"))
     return (
         <div className='h-full w-full flex flex-col gap-3'>
             <header className='flex justify-between items-center px-1 lg:px-4  gap-3 py-3'>
-                <h1 className={`${inter.className} text-5xl hidden xl:block `}>Welcome, Peter Parker!</h1>
+                <h1 className={`${inter.className} text-5xl hidden xl:block `}>Welcome, {name} !</h1>
                 <MonthSelector />
                 <DropdownMenu>
                     <DropdownMenuTrigger className="text-3xl xl:hidden"><IoAddCircleOutline /></DropdownMenuTrigger>

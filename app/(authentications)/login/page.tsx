@@ -1,7 +1,73 @@
-import Login from '@/components/auth/ui/Login'
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import toast from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
+import AuthLayout from '@/components/auth/AuthLayout'
+export default function Register() {
+    const initialData = {
+        username: "",
+        email: "",
+        password: "",
+        cfpassword: ""
+    }
+    const [formData, setFormData] = useState(initialData)
+    const [message, setMessage] = useState<string | null>(null)
+    const supabase = createClientComponentClient();
+    const [isLoading, setIsLoading] = useState(false)
+    const router = useRouter()
 
-export default function LoginPage() {
+    const handleChange = (e: any) => {
+        setFormData({
+            ...formData, [e.target.name]: e.target.value
+        })
+    }
 
-    return <Login />
+
+    const handleLogIn = async (e: any) => {
+        e.preventDefault()
+
+        setIsLoading(true)
+        toast.loading("Logging In! Please Wait", { duration: 1000, })
+        const res = await supabase.auth.signInWithPassword({
+            email: formData.email,
+            password: formData.password,
+        })
+        if (!res.error) {
+            setFormData(initialData)
+            toast.success("Login successfully")
+            console.log("logged")
+            router.refresh()
+        }
+        else {
+            setMessage(res.error.message)
+        }
+        setIsLoading(false)
+
+    }
+
+
+    return <AuthLayout
+        title='Sign In'
+        subTitle='Get Started by Logging In'
+        image='/images/auth/sign-in.png'
+        route={{ href: "/", title: "Home" }}
+        footerTitle='Signing in'
+    >
+        <form action="" className='flex flex-col gap-3 md:gap-7' onSubmit={handleLogIn}>
+            <Input placeholder='Email..' className='p-7 text-lg' name='email' onChange={handleChange} />
+            <Input placeholder='Password...' type='password' className='p-7 text-lg' name='password' onChange={handleChange} />
+            <Button disabled={isLoading} className='bg-primary-color text-lg'>Login</Button>
+        </form>
+        <div className='flex gap-2 justify-center items-center'>
+            <p>New Here?</p>
+            <Link href={"/register"} className='text-primary-color underline'> Register for Free! </Link>
+        </div>
+        {
+            message?.length && <p className='px-3 py-5 w-full text-center bg-red-100 underline text-red-600' >{message}</p>
+        }
+    </AuthLayout>
 }

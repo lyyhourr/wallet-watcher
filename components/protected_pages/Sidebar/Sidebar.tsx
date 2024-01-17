@@ -7,9 +7,8 @@ import { Logout } from "./Logout";
 export default function Sidebar() {
   return (
     <nav className='flex lg:flex-col justify-between lg:justify-normal items-center lg:items-start lg:gap-20 p-3 lg:p-5 border-b lg:border-b-0 lg:border-r border-gray-400 '>
-      <section className='flex items-center justify-start lg:justify-center gap-3 w-full cursor-pointer'>
+      <section className=''>
         <Logo />
-        <p>name</p>
       </section>
       <section className='hidden lg:flex flex-col gap-2'>
         <SidebarRoutes />

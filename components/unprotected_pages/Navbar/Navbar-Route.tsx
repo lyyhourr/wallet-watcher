@@ -29,10 +29,10 @@ export default function NavbarRoute(props: INavbarRoute) {
   if (props.isMobile) {
     return (
       navbar.map((nav, i) => (
-        <SheetClose asChild>
+        <SheetClose asChild key={i}>
           <Link
             href={nav.route}
-            key={i}
+
             className={cn(
               "text-lg text-slate-500 duration-300 hover:text-slate-900",
               pathname === nav.route && "text-black"

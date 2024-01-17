@@ -7,7 +7,7 @@ export default function DashbaordHistory() {
 
   return <div className="bg-white rounded-lg h-full flex gap-2">
     <section className="h-full">
-      <div className=" h-full hidden xl:block  bg-slate-100 rounded-md w-[400px] p-2">
+      <div className=" h-full hidden xl:block  bg-slate-50 rounded-md w-[400px] p-5">
         <HistoryFilter />
       </div>
 
@@ -21,7 +21,9 @@ export default function DashbaordHistory() {
           </div>
         </DrawerContent>
       </Drawer>
-      <p className="text-center text-5xl">Query Result</p>
+      <div className="h-full flex items-center justify-center bg-slate-50">
+        <p className="text-5xl ">Query Result</p>
+      </div>
     </section>
 
   </div>;
