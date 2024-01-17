@@ -32,7 +32,9 @@ const months: TMonths[] = [
 
 export function MonthSelector() {
     const [open, setOpen] = useState(false)
-    const [onMonth, setOnMonth] = useState("January");
+    const currentMonth = new Date()
+    const [onMonth, setOnMonth] = useState(months[currentMonth.getMonth()]);
+    console.log(currentMonth)
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -43,7 +45,6 @@ export function MonthSelector() {
                 >
                     {onMonth}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    {/* <ArrowDown className={cn(`ml-2 h-4 w-4 shrink-0 opacity-50 transition-all`, open && "rotate-180")} /> */}
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">

@@ -18,7 +18,9 @@ export default async function Dashboard() {
     const cookieStore = cookies()
     const supabase = createServerComponentClient({ cookies: () => cookieStore })
     const { data: { user }, error } = await supabase.auth.getUser()
+    const userId = user?.id
     const name = user?.email?.slice(0, user?.email.indexOf("@"))
+
     return (
         <div className='h-full w-full flex flex-col gap-3'>
             <header className='flex justify-between items-center px-1 lg:px-4  gap-3 py-3'>
@@ -27,7 +29,7 @@ export default async function Dashboard() {
                 <DropdownMenu>
                     <DropdownMenuTrigger className="text-3xl xl:hidden"><IoAddCircleOutline /></DropdownMenuTrigger>
                     <DropdownMenuContent className="flex flex-col gap-1 p-2 mr-1">
-                        <AddIncome />
+                        <AddIncome userId={userId} />
                         <AddExpense />
                         <AddGoal />
                     </DropdownMenuContent>
@@ -45,7 +47,7 @@ export default async function Dashboard() {
                 </section>
                 <section className="hidden w-full lg:w-[350px] rounded-md bg-slate-50  xl:flex flex-col justify-between ">
                     <div className="flex flex-col gap-2 py-10 px-2">
-                        <AddIncome />
+                        <AddIncome userId={userId} />
                         <AddExpense />
                         <AddGoal />
                     </div>
