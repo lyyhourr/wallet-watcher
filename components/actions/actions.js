@@ -5,15 +5,12 @@ import { cookies } from "next/headers";
 
 export async function CreateIncome(formData) {
   const cookieStore = cookies();
-  const category = formData.get("category");
-  const amount = formData.get("amount");
-  const date = formData.get("date");
-  const type = formData.get("type");
+  const { category, amount, date, type } = formData;
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
   const {
     data: { session },
   } = await supabase.auth.getSession();
   const user = session?.user;
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
   const { data, error } = await supabase.from("income").insert([
     {
       user_id: user.id,
@@ -23,8 +20,9 @@ export async function CreateIncome(formData) {
       date,
     },
   ]);
+  console.log(data);
   if (error) {
-    console.log("add error");
+    console.log(error.message);
   }
-  return { message: "Pleaseeeee work" };
+  return true;
 }
