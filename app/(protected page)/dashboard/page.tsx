@@ -18,7 +18,7 @@ export default async function Dashboard() {
     const cookieStore = cookies()
     const supabase = createServerComponentClient({ cookies: () => cookieStore })
     const { data: { user }, error } = await supabase.auth.getUser()
-    const name = user?.email?.substring(0, user?.email.indexOf("@"))
+    const name = user?.email?.slice(0, user?.email.indexOf("@"))
     return (
         <div className='h-full w-full flex flex-col gap-3'>
             <header className='flex justify-between items-center px-1 lg:px-4  gap-3 py-3'>

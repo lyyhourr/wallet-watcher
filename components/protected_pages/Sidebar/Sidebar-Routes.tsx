@@ -1,6 +1,6 @@
 "use client"
 import { cn } from '@/lib/utils';
-import { HistoryIcon, LayoutDashboard, Settings } from 'lucide-react';
+import { HistoryIcon, LayoutDashboard, Settings, UserIcon } from 'lucide-react';
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import React from 'react'
@@ -28,6 +28,11 @@ export const navRoutes: INavRoutes[] = [
         title: "History",
         route: "/history",
         icon: <HistoryIcon />,
+    },
+    {
+        title: "User",
+        route: "/user",
+        icon: <UserIcon />,
     },
     {
         title: "Setting",
