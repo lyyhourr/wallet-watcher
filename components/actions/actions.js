@@ -3,26 +3,27 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
-export async function CreateIncome(formData) {
+export async function CreateTransaction(formData) {
   const cookieStore = cookies();
-  const { category, amount, date, type } = formData;
   const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const { description, amount, date, type, category } = formData;
   const {
     data: { session },
   } = await supabase.auth.getSession();
   const user = session?.user;
-  const { data, error } = await supabase.from("income").insert([
+  const { data, error } = await supabase.from("transactions").insert([
     {
       user_id: user.id,
-      category,
+      description,
       amount,
-      type,
       date,
+      type,
+      category,
     },
   ]);
-  console.log(data);
   if (error) {
-    console.log(error.message);
+    console.log(error);
+    return false;
   }
   return true;
 }

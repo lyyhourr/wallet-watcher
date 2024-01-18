@@ -12,10 +12,10 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-import { useState } from "react"
+import React, { Dispatch, SetStateAction, useState } from "react"
 import { TMonths } from "@/types/types"
 
-const months: TMonths[] = [
+export const months: TMonths[] = [
     "January",
     "February",
     "March",
@@ -29,12 +29,16 @@ const months: TMonths[] = [
     "November",
     "December"
 ];
-
-export function MonthSelector() {
+interface IselctedMonth {
+    setSelectedMonth: Dispatch<SetStateAction<number>>
+}
+export function MonthSelector({ setSelectedMonth }: IselctedMonth) {
     const [open, setOpen] = useState(false)
     const currentMonth = new Date()
     const [onMonth, setOnMonth] = useState(months[currentMonth.getMonth()]);
-    console.log(currentMonth)
+
+
+
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -50,8 +54,8 @@ export function MonthSelector() {
             <PopoverContent className="w-[200px] p-0">
                 <Command>
                     <CommandGroup>
-                        {months.map((month) => (
-                            <div className="" onClick={() => { setOnMonth(month), setOpen(false) }} key={month}>
+                        {months.map((month, i) => (
+                            <div className="" onClick={() => { setOnMonth(month), setOpen(false), setSelectedMonth(i) }} key={month}>
                                 <CommandItem className="flex gap-2">
                                     <Check className={cn("text-white w-4 h-4", onMonth === month && "text-black")} />
                                     {month}

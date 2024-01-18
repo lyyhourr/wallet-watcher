@@ -8,52 +8,69 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fontHeader } from "@/fonts/Fonts";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-
-import React, { useEffect, useState } from "react";
-import { CreateIncome } from "@/components/actions/actions";
+import React, { useState } from "react";
+import { CreateTransaction } from "@/components/actions/actions";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import CategorySelector from "../CategorySelector";
+
 const initialData = {
-  type: "",
+  type: "income",
   amount: "",
   date: "",
+  description: "",
   category: "",
 };
 
 export default function AddIncome() {
   const [formData, setFormData] = useState(initialData);
-  const [tabs, setTabs] = useState("other");
   const [openDialog, setOpenDialog] = useState(false);
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    const actions = await CreateIncome(formData);
-    if (actions) {
-      return toast.success("add successfully");
-    }
-    console.log(actions);
-  };
+  const router = useRouter()
+
   const handleChange = (e: any) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-      type: tabs,
     });
   };
+
+  const validation = () => {
+    const amount = Number(formData.amount)
+    if (!formData.amount.length) {
+      toast.error("empty amount!")
+    }
+    else if (isNaN(amount)) {
+      toast.error("amount must be number")
+      return false
+    }
+    else if (amount < 0) {
+      toast.error("amunt cant be negative number");
+      return false
+    }
+    else if (!formData.date) {
+      toast.error("empty date");
+      return false
+    }
+    return true
+  }
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    const check = validation();
+    if (check) {
+      const actions = await CreateTransaction(formData);
+      if (actions) {
+        toast.success("add successfully");
+        setOpenDialog(false)
+        router.refresh()
+      } else {
+        toast.error("add failed")
+      }
+    }
+
+  };
+
   return (
     <Dialog onOpenChange={setOpenDialog} open={openDialog}>
       <DialogTrigger className="bg-green-500 px-2 py-1 sm:px-4 text-lg sm:py-2 text-white rounded-md">
@@ -63,175 +80,69 @@ export default function AddIncome() {
         <DialogHeader className={`${fontHeader.className} text-2xl `}>
           Add Income
         </DialogHeader>
-        <Tabs>
-          <TabsList className="w-full">
-            <TabsTrigger
-              value="other"
-              className="w-full"
-              onClick={() => setTabs("other")}
+        <form
+          action=""
+          className="flex flex-col gap-3"
+          method="post"
+          onSubmit={handleSubmit}
+        >
+          <div className="grid grid-cols-4 items-center">
+            <label htmlFor="" className="text-sm md:text-base">
+              Amount
+            </label>
+            <Input
+              placeholder="Amount"
+              className="col-span-3"
+              name="amount"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center">
+            <label htmlFor="" className="text-xs sm:text-sm md:text-base ">
+              Recived Date
+            </label>
+            <Input
+              placeholder="date"
+              type="date"
+              className="col-span-3"
+              name="date"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center">
+            <label htmlFor="" className="text-xs sm:text-sm md:text-base ">
+              Category
+            </label>
+            <CategorySelector formData={formData} setFormData={setFormData} category={["salary", "bonus", "other"]} />
+          </div>
+          <div className="grid grid-cols-4 items-center">
+            <label htmlFor="" className="text-sm md:text-base">
+              Description
+            </label>
+            <Input
+              placeholder="Description (optional)"
+              className="col-span-3"
+              name="description"
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex gap-2 items-center ">
+            <Button
+              className="bg-green-500 text-lg w-full"
             >
-              Other Income
-            </TabsTrigger>
-            <TabsTrigger
-              value="salary"
-              className="w-full"
-              onClick={() => setTabs("salary")}
-            >
-              Salary Income
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="other">
-            <form
-              action=""
-              className="flex flex-col gap-3"
-              method="post"
-              onSubmit={handleSubmit}
-            >
-              <div className="grid grid-cols-4 items-center">
-                <label htmlFor="" className="text-sm md:text-base">
-                  Amount
-                </label>
-                <Input
-                  placeholder="Amount"
-                  className="col-span-3"
-                  name="amount"
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center">
-                <label htmlFor="" className="text-xs sm:text-sm md:text-base ">
-                  Recived Date
-                </label>
-                <Input
-                  placeholder="date"
-                  type="date"
-                  className="col-span-3"
-                  name="date"
-                  onChange={handleChange}
-                />
-              </div>
-              <Category setFormData={setFormData} formData={formData} />
-              <div className="flex gap-2 items-center ">
-                <Button
-                  className="bg-green-500 text-lg w-full"
-                  onClick={() => setOpenDialog(false)}
-                >
-                  Add Income
-                </Button>
-                <Button
-                  className="bg-gray-500 text-lg w-full"
-                  onClick={() => setOpenDialog(false)}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </form>
-          </TabsContent>
-          <TabsContent value="salary">
-            <form
-              action=""
-              className="flex flex-col gap-3"
-              method="post"
-              onSubmit={handleSubmit}
-            >
-              <div className="grid grid-cols-4 items-center">
-                <label htmlFor="" className="text-sm md:text-base">
-                  Salary
-                </label>
-                <Input
-                  placeholder="Amount"
-                  className="col-span-3"
-                  name="amount"
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="grid grid-cols-4 items-center">
-                <label htmlFor="" className="text-xs sm:text-sm md:text-base ">
-                  Recived Date
-                </label>
-                <Input
-                  placeholder="date"
-                  type="date"
-                  className="col-span-3"
-                  name="date"
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="flex gap-2 items-center ">
-                <Button className="bg-green-500 text-lg w-full">
-                  Add Income
-                </Button>
-                <Button
-                  className="bg-gray-500 text-lg w-full"
-                  type="button"
-                  onClick={() => setOpenDialog(false)}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </form>
-          </TabsContent>
-        </Tabs>
+              Add Income
+            </Button>
+            <DialogClose asChild>
+              <Button
+                className="bg-gray-500 text-lg w-full"
+              >
+                Cancel
+              </Button>
+            </DialogClose>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );
 }
 
-function Category({ setFormData, formData }: any) {
-  const category = [
-    "shopping",
-    "foods",
-    "clothes",
-    "bills",
-    "hospital",
-    "other",
-  ];
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
-
-  useEffect(() => {
-    setFormData({ ...formData, category: value });
-  }, [value]);
-
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[200px] justify-between"
-        >
-          {value ? value : "Select a Category"}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Search framework..." />
-          <CommandEmpty>No framework found.</CommandEmpty>
-          <CommandGroup>
-            {category.map((cate) => (
-              <CommandItem
-                key={cate}
-                value={cate}
-                onSelect={(currentValue) => {
-                  setValue(currentValue === value ? "" : currentValue);
-                  setOpen(false);
-                }}
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    value === cate ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {cate}
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  );
-}
