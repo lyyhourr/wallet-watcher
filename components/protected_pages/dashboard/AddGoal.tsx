@@ -2,13 +2,13 @@
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger } from '@/components/ui/select'
 import { fontHeader } from '@/fonts/Fonts'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 
-export default function AddGoal({ id, goalAmount }: { id: string, goalAmount: number }) {
+
+export default function AddGoal({ userId, goalAmount }: { userId: string, goalAmount: number }) {
     const [amount, setAmount] = useState(`${goalAmount}`)
 
     const validation = () => {
@@ -33,16 +33,23 @@ export default function AddGoal({ id, goalAmount }: { id: string, goalAmount: nu
 
         if (validate) {
             const supabase = createClientComponentClient();
-            const { error } = await supabase.from("goal").update([{ amount }])
-            if (error) {
-                toast.error(error.message)
+            const { data: existingUser } = await supabase
+                .from('goal')
+                .select('user_id')
+                .eq('user_id', userId);
+
+            if (existingUser?.length) {
+                const { data } = await supabase.from("goal").update([{ amount }]).eq("user_id", userId)
             } else {
-                toast.success("goal added")
+                const { data } = await supabase.from("goal").insert([{ user_id: userId, amount }])
+
             }
+
+
         }
 
     }
-
+    console.log("dashboard table rendered")
 
     return (
         <Dialog>

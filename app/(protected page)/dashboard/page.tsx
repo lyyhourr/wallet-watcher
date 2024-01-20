@@ -28,10 +28,8 @@ const months = [
   "September",
   "October",
   "November",
-  "December"];
-
-
-export default async function Dashboard() {
+  "December"]
+const FetchTableData = async () => {
   const currentMonth = new Date().getMonth() + 1;
   const cookieStore = cookies();
   const supabase = createServerComponentClient({ cookies: () => cookieStore });
@@ -45,16 +43,18 @@ export default async function Dashboard() {
     .lte("date", `2024-${currentMonth}-30T23:59:59.999Z`)
 
   const FetchGoal = await supabase.from("goal").select("*").eq("user_id", user?.id);
+  return { user, data, FetchGoal, username, currentMonth }
+}
+
+
+export default async function Dashboard() {
+  const { FetchGoal, data, user, username, currentMonth } = await FetchTableData()
   const goalAmount = FetchGoal.data?.map(item => Number(item.amount)).reduce((a: number, b: number) => a + b, 0)
-
-
   const income = await data?.filter((item: any) => item.type === "income").map((item: any) => Number(item.amount))?.reduce((a: number, b: number) => a + b, 0);
   const expense = await data?.filter((item: any) => item.type === "expense").map((item: any) => Number(item.amount))?.reduce((a: number, b: number) => a + b, 0);
   const expenseAfterFetch = expense ? expense : 0
   const balance = income ? income - expenseAfterFetch : 0;
-
-  console.log("dashboard rendered")
-
+  console.log("dashboard")
   return (
     <div className="h-full w-full flex flex-col gap-3">
       <header className="flex justify-between items-center px-1 lg:px-4  gap-3 py-3">
@@ -69,7 +69,7 @@ export default async function Dashboard() {
           <DropdownMenuContent className="flex flex-col gap-1 p-2 mr-1">
             <AddIncome />
             <AddExpense />
-            <AddGoal id={user ? user.id : ""} goalAmount={goalAmount ? goalAmount : 0} />
+            <AddGoal userId={user ? user.id : ""} goalAmount={goalAmount ? goalAmount : 0} />
           </DropdownMenuContent>
         </DropdownMenu>
       </header>
@@ -99,7 +99,7 @@ export default async function Dashboard() {
           <div className="flex flex-col gap-2 py-10 px-2">
             <AddIncome />
             <AddExpense />
-            <AddGoal id={user ? user.id : ""} goalAmount={goalAmount ? goalAmount : 0} />
+            <AddGoal userId={user ? user.id : ""} goalAmount={goalAmount ? goalAmount : 0} />
 
           </div>
           <Image

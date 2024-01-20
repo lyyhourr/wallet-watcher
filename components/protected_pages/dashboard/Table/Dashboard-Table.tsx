@@ -49,7 +49,6 @@ export default function DashboardTable({ tableData }: ITable) {
     const { firstDayOfWeek, lastDayOfWeek } = getFirstAndLastDayOfWeek();
     const startDayOfWeek = firstDayOfWeek.toLocaleString(undefined, { day: "numeric" })
     const endDayOfWeek = lastDayOfWeek.toLocaleString(undefined, { day: "numeric" })
-    const router = useRouter()
     const queryHandler = (props: { query: "gte" | "lte" }) => {
         if (props.query === "gte") {
             if (tab === "today") return `2024-${date.getMonth() + 1}-${date.getDate()}`
@@ -81,7 +80,6 @@ export default function DashboardTable({ tableData }: ITable) {
             if (error) {
                 toast.error(error.message)
             }
-            router.refresh();
         }
         Fetch()
     }, [tableData, tab])
