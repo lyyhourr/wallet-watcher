@@ -14,6 +14,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import CategorySelector from "../CategorySelector";
 import { useRouter } from "next/navigation";
+import { expenseCategories } from "../Category-Icons";
 
 const initialData = {
   type: "expense",
@@ -22,28 +23,6 @@ const initialData = {
   description: "",
   category: "",
 };
-const category = [
-  "Housing/Renting",
-  "Utilities ",
-  "Groceries",
-  "Transportation",
-  "Insurance ",
-  "Loan Payments",
-  "Taxes",
-  "Healthcare",
-  "Entertainment",
-  "Internet and Phone",
-  "Clothing",
-  "Personal Care ",
-  "Investments",
-  "Education",
-  "Gifts and Donations",
-  "Travel",
-  "Childcare",
-  "Subscriptions",
-  "Miscellaneous",
-  "other",
-];
 
 export default function AddExpense() {
   const [formData, setFormData] = useState(initialData);
@@ -117,7 +96,7 @@ export default function AddExpense() {
             <CategorySelector
               formData={formData}
               setFormData={setFormData}
-              category={category}
+              category={expenseCategories}
             />
           </div>
           <div className="grid grid-cols-4 items-center">

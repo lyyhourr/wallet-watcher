@@ -15,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import toast from "react-hot-toast";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
+import { expenseCategories } from "../../Category-Icons";
 
 export default function Edit(props: IFormData) {
   const initialData = {
@@ -105,7 +106,7 @@ export default function Edit(props: IFormData) {
             <CategorySelector
               formData={formData}
               setFormData={setFormData}
-              category={["salary", "bonus", "other"]}
+              category={expenseCategories}
               defaultValue={props.category}
             />
           </div>

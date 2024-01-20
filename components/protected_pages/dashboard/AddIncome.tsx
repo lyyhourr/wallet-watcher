@@ -14,6 +14,7 @@ import { CreateTransaction } from "@/components/actions/actions";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import CategorySelector from "../CategorySelector";
+import { incomeCategories } from "../Category-Icons";
 
 const initialData = {
   type: "income",
@@ -22,20 +23,6 @@ const initialData = {
   description: "",
   category: "",
 };
-
-const incomeCategories = [
-  "Salary",
-  "Bonus",
-  "Tips",
-  "Rental ",
-  "Retirement ",
-  "Freelance/Contract ",
-  "Business ",
-  "other ",
-];
-
-// Example of using the array
-console.log(incomeCategories);
 
 export default function AddIncome() {
   const [formData, setFormData] = useState(initialData);

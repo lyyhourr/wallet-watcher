@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Edit from "./Edit";
 import Delete from "./Delete";
+import { IconHandler } from "../../Category-Icons";
+import { IoMdBuild } from "react-icons/io";
 
 const tabs = ["today", "week", "month", "year"];
 const getFirstAndLastDayOfWeek = () => {
@@ -44,15 +46,6 @@ const getFirstAndLastDayOfWeek = () => {
 
   return { startDayOfWeek, endDayOfWeek };
 };
-
-const IconHandler = (cate: string) => (
-  <span>
-    {cate === "shopping" && <ShoppingBagIcon className="text-yellow-500" />}
-    {cate === "other" && <MdOutlineCheckCircleOutline />}
-    {cate === "bills" && <FaMoneyBillTrendUp className="text-green-500" />}
-    {cate === "hospital" && <GiFirstAidKit className="text-red-600 " />}
-  </span>
-);
 
 interface ITable {
   tableData: IFormData[];
@@ -146,17 +139,12 @@ export default function DashboardTable({ tableData }: ITable) {
               <TableRow className="flex w-full mb-4 " key={i}>
                 <TableCell
                   className={cn(
-                    "p-4 w-1/2 sm:w-1/4 flex items-center gap-1  text-lg md:justify-center"
+                    "p-4 w-1/2 sm:w-1/4 flex items-center gap-1  text-lg md:justify-center",
+                    item.type === "income" ? "text-green-600" : "text-red-600"
                   )}
                 >
                   <p className="text-xl">{IconHandler(`${item.category}`)}</p>
-                  <p
-                    className={cn(
-                      item.type === "income" ? "text-green-600" : "text-red-600"
-                    )}
-                  >
-                    {item.category}
-                  </p>
+                  <p className={cn()}>{item.category}</p>
                 </TableCell>
                 <TableCell
                   className={cn(
