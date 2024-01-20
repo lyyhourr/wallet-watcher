@@ -79,6 +79,7 @@ export default function Register() {
                 setFormData(initialData)
                 toast.success("Registered successfully")
                 setMessage({ color: "green", msg: "Please Check Your Email !" })
+
             } else {
                 setMessage({ color: "red", msg: "Email already in used!" })
             }

@@ -30,6 +30,7 @@ const months = [
   "November",
   "December"];
 
+
 export default async function Dashboard() {
   const currentMonth = new Date().getMonth() + 1;
   const cookieStore = cookies();
@@ -43,13 +44,16 @@ export default async function Dashboard() {
     .gte("date", `2024-${currentMonth}-01T00:00:00.000Z`)
     .lte("date", `2024-${currentMonth}-30T23:59:59.999Z`)
 
+  const FetchGoal = await supabase.from("goal").select("*").eq("user_id", user?.id);
+  const goalAmount = FetchGoal.data?.map(item => Number(item.amount)).reduce((a: number, b: number) => a + b, 0)
+
 
   const income = await data?.filter((item: any) => item.type === "income").map((item: any) => Number(item.amount))?.reduce((a: number, b: number) => a + b, 0);
   const expense = await data?.filter((item: any) => item.type === "expense").map((item: any) => Number(item.amount))?.reduce((a: number, b: number) => a + b, 0);
   const expenseAfterFetch = expense ? expense : 0
   const balance = income ? income - expenseAfterFetch : 0;
 
-
+  console.log("dashboard rendered")
 
   return (
     <div className="h-full w-full flex flex-col gap-3">
@@ -65,7 +69,7 @@ export default async function Dashboard() {
           <DropdownMenuContent className="flex flex-col gap-1 p-2 mr-1">
             <AddIncome />
             <AddExpense />
-            <AddGoal />
+            <AddGoal id={user ? user.id : ""} goalAmount={goalAmount ? goalAmount : 0} />
           </DropdownMenuContent>
         </DropdownMenu>
       </header>
@@ -87,15 +91,16 @@ export default async function Dashboard() {
               background="red"
               icon={<GiExpense />}
             />
-            <Card title="Goal" amount="1000" icon={<GiExpense />} />
+            <Card title="Goal" amount={`${goalAmount}`} icon={<GiExpense />} />
           </div>
-          <DashboardTable income={income} expense={expense} />
+          <DashboardTable tableData={data ? data : [{}]} />
         </section>
         <section className="hidden w-full lg:w-[350px] rounded-md bg-slate-50  xl:flex flex-col justify-between ">
           <div className="flex flex-col gap-2 py-10 px-2">
             <AddIncome />
             <AddExpense />
-            <AddGoal />
+            <AddGoal id={user ? user.id : ""} goalAmount={goalAmount ? goalAmount : 0} />
+
           </div>
           <Image
             src={"/images/coin.png"}

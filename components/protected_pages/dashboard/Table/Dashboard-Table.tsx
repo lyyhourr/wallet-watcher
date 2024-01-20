@@ -11,6 +11,9 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IFormData } from '../../CategorySelector'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import Edit from './EditExpense'
+import Delete from './Delete'
 
 const tabs = ["today", "week", "month", "year"]
 const getFirstAndLastDayOfWeek = () => {
@@ -35,8 +38,10 @@ const IconHandler = (cate: string) => (
 )
 
 
-
-export default function DashboardTable({ income, expense }: any) {
+interface ITable {
+    tableData: IFormData[]
+}
+export default function DashboardTable({ tableData }: ITable) {
     const [tab, setTab] = useState("today");
     const [transactions, setTransaction] = useState<IFormData[]>()
     const date = new Date()
@@ -45,7 +50,6 @@ export default function DashboardTable({ income, expense }: any) {
     const startDayOfWeek = firstDayOfWeek.toLocaleString(undefined, { day: "numeric" })
     const endDayOfWeek = lastDayOfWeek.toLocaleString(undefined, { day: "numeric" })
     const router = useRouter()
-
     const queryHandler = (props: { query: "gte" | "lte" }) => {
         if (props.query === "gte") {
             if (tab === "today") return `2024-${date.getMonth() + 1}-${date.getDate()}`
@@ -63,25 +67,26 @@ export default function DashboardTable({ income, expense }: any) {
     useEffect(() => {
         const Fetch = async () => {
             const { data: { user } }: any = await supabase.auth.getUser();
-            const { data, error }: any = await supabase
+
+            const { error, data } = await supabase
                 .from('transactions')
-                .select()
+                .select("*")
                 .eq('user_id', user.id)
                 .order("date", { ascending: false })
                 .gte("date", queryHandler({ query: "gte" }) + "T00:00:00.000Z")
                 .lte("date", queryHandler({ query: "lte" }) + "T00:00:00.000Z")
-            setTransaction(data)
+            if (data) {
+                setTransaction(data)
+            }
             if (error) {
-                toast.error(error)
+                toast.error(error.message)
             }
             router.refresh();
         }
         Fetch()
-    }, [tab])
+    }, [tableData, tab])
 
-    useEffect(() => {
-        router.refresh()
-    }, [income, expense])
+
 
 
     return (
@@ -128,14 +133,20 @@ export default function DashboardTable({ income, expense }: any) {
                                 </TableCell>
                                 <TableCell className={cn("p-4 w-1/3 sm:w-1/4", item.type === "income" ? "text-green-600" : "text-red-600")}>{item.amount}$</TableCell>
                                 <TableCell className="p-4 w-1/4 hidden sm:block">{item.date}</TableCell>
-                                <TableCell className="p-4 w-1/4" ><MoreHorizontal /></TableCell>
+                                <TableCell className="p-4 w-1/4" > <DropdownMenu>
+                                    <DropdownMenuTrigger className='text-xl flex items-center'><MoreHorizontal /></DropdownMenuTrigger>
+                                    <DropdownMenuContent className='flex gap-1 items-center mr-2' side='bottom'>
+                                        <Edit amount={item.amount} date={item.date} category={item.category} id={item.id} />
+                                        <Delete id={`${item.id}`} />
+
+                                    </DropdownMenuContent>
+                                </DropdownMenu></TableCell>
                             </TableRow>
                         ))
                     }
                     {
                         !transactions && (
                             <TableRow className="flex w-full mb-4 " >
-
                                 <TableCell className="p-4 w-full text-center text-lg" >No Data</TableCell>
                             </TableRow>
                         )

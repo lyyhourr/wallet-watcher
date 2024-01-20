@@ -7,23 +7,25 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "
 import { cn } from "@/lib/utils";
 
 export interface IFormData {
-    type: string,
-    amount: string
-    date: string
-    description: string
-    category: string
+    id?: string | number
+    type?: string,
+    amount?: string
+    date?: string
+    description?: string
+    category?: string
 }
 
 interface ICategorySelector {
     formData: IFormData
-    setFormData: React.Dispatch<React.SetStateAction<IFormData>>
+    setFormData: React.Dispatch<React.SetStateAction<any>>
     category: string[]
+    defaultValue?: string
 }
 
-export default function CategorySelector({ setFormData, formData, category }: ICategorySelector) {
+export default function CategorySelector({ setFormData, formData, category, defaultValue }: ICategorySelector) {
 
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState(defaultValue);
 
     useEffect(() => {
         setFormData({ ...formData, category: value });

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     AlertDialog,
     AlertDialogAction,
@@ -10,9 +10,24 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-export default function Delete() {
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Button } from '@/components/ui/button'
+import toast from 'react-hot-toast'
+export default function Delete({ id }: { id: string | number }) {
+    const supabase = createClientComponentClient()
+    const [open, setOpen] = useState(false)
+    const handleDelete = async () => {
+        const { data, error } = await supabase.from("transactions").delete().eq('id', id)
+        if (!error) {
+            toast.success("transactions deleted!")
+            setOpen(false)
+        }
+        else {
+            toast.success("delete failed!")
+        }
+    }
     return (
-        <AlertDialog>
+        <AlertDialog open={open} onOpenChange={setOpen}>
             <AlertDialogTrigger className="py-1 w-[70px] bg-card-red rounded-md text-white">
                 Delete
             </AlertDialogTrigger>
@@ -26,7 +41,8 @@ export default function Delete() {
                 </AlertDialogHeader>
                 <AlertDialogFooter >
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction className='bg-card-red'>Delete</AlertDialogAction>
+
+                    <Button className='bg-card-red' onClick={handleDelete} >Delete</Button>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

@@ -52,6 +52,11 @@ export default function AddIncome() {
       toast.error("empty date");
       return false
     }
+    else if (!formData.category) {
+      toast.error("select a category")
+      return false;
+
+    }
     return true
   }
 
