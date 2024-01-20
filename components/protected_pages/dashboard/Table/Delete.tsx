@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -14,10 +13,12 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+
 export default function Delete({ id }: { id: string | number }) {
   const supabase = createClientComponentClient();
   const [open, setOpen] = useState(false);
   const router = useRouter();
+
   const handleDelete = async () => {
     const { data, error } = await supabase
       .from("transactions")

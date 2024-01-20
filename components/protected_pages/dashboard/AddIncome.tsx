@@ -23,10 +23,24 @@ const initialData = {
   category: "",
 };
 
+const incomeCategories = [
+  "Salary",
+  "Bonus",
+  "Tips",
+  "Rental ",
+  "Retirement ",
+  "Freelance/Contract ",
+  "Business ",
+  "other ",
+];
+
+// Example of using the array
+console.log(incomeCategories);
+
 export default function AddIncome() {
   const [formData, setFormData] = useState(initialData);
   const [openDialog, setOpenDialog] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
 
   const handleChange = (e: any) => {
     setFormData({
@@ -36,29 +50,24 @@ export default function AddIncome() {
   };
 
   const validation = () => {
-    const amount = Number(formData.amount)
+    const amount = Number(formData.amount);
     if (!formData.amount.length) {
-      toast.error("empty amount!")
-    }
-    else if (isNaN(amount)) {
-      toast.error("amount must be number")
-      return false
-    }
-    else if (amount < 0) {
-      toast.error("amunt cant be negative number");
-      return false
-    }
-    else if (!formData.date) {
-      toast.error("empty date");
-      return false
-    }
-    else if (!formData.category) {
-      toast.error("select a category")
+      toast.error("empty amount!");
+    } else if (isNaN(amount)) {
+      toast.error("amount must be number");
       return false;
-
+    } else if (amount < 0) {
+      toast.error("amunt cant be negative number");
+      return false;
+    } else if (!formData.date) {
+      toast.error("empty date");
+      return false;
+    } else if (!formData.category) {
+      toast.error("select a category");
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -67,13 +76,12 @@ export default function AddIncome() {
       const actions = await CreateTransaction(formData);
       if (actions) {
         toast.success("add successfully");
-        setOpenDialog(false)
-        router.refresh()
+        setOpenDialog(false);
+        router.refresh();
       } else {
-        toast.error("add failed")
+        toast.error("add failed");
       }
     }
-
   };
 
   return (
@@ -102,6 +110,17 @@ export default function AddIncome() {
               onChange={handleChange}
             />
           </div>
+
+          <div className="grid grid-cols-4 items-center">
+            <label htmlFor="" className="text-xs sm:text-sm md:text-base ">
+              Category
+            </label>
+            <CategorySelector
+              formData={formData}
+              setFormData={setFormData}
+              category={incomeCategories}
+            />
+          </div>
           <div className="grid grid-cols-4 items-center">
             <label htmlFor="" className="text-xs sm:text-sm md:text-base ">
               Recived Date
@@ -115,12 +134,6 @@ export default function AddIncome() {
             />
           </div>
           <div className="grid grid-cols-4 items-center">
-            <label htmlFor="" className="text-xs sm:text-sm md:text-base ">
-              Category
-            </label>
-            <CategorySelector formData={formData} setFormData={setFormData} category={["salary", "bonus", "other"]} />
-          </div>
-          <div className="grid grid-cols-4 items-center">
             <label htmlFor="" className="text-sm md:text-base">
               Description
             </label>
@@ -132,17 +145,9 @@ export default function AddIncome() {
             />
           </div>
           <div className="flex gap-2 items-center ">
-            <Button
-              className="bg-green-500 text-lg w-full"
-            >
-              Add Income
-            </Button>
+            <Button className="bg-green-500 text-lg w-full">Add Income</Button>
             <DialogClose asChild>
-              <Button
-                className="bg-gray-500 text-lg w-full"
-              >
-                Cancel
-              </Button>
+              <Button className="bg-gray-500 text-lg w-full">Cancel</Button>
             </DialogClose>
           </div>
         </form>
@@ -150,4 +155,3 @@ export default function AddIncome() {
     </Dialog>
   );
 }
-

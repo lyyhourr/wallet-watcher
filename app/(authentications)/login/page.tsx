@@ -88,7 +88,7 @@ export default function Register() {
         <p>New Here?</p>
         <Link href={"/register"} className="text-primary-color underline">
           {" "}
-          Register for Free!{" "}
+          Register now!{" "}
         </Link>
       </div>
       {message?.length && (

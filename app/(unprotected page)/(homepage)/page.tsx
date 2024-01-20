@@ -1,4 +1,4 @@
-import { fontHeader, fontHero, fontText } from "@/fonts/Fonts";
+import { fontHero } from "@/fonts/Fonts";
 import Image from "next/image";
 import Link from "next/link";
 

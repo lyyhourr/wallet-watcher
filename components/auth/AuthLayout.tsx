@@ -17,12 +17,9 @@ interface IAuthLayout {
 }
 
 export default function AuthLayout(props: IAuthLayout) {
-
-
-
   return (
-    <main className="h-screen grid bg-main lg:grid-cols-5 overflow-hidden">
-      <section className="hidden  border-black border-2 w-full col-span-2 lg:flex items-center bg-white justify-center ">
+    <main className="h-screen grid bg-main lg:grid-cols-5 overflow-hidden ">
+      <section className="hidden  w-full col-span-2 lg:flex items-center bg-white  ">
         <Image
           src={props.image}
           width={10000}
@@ -31,8 +28,8 @@ export default function AuthLayout(props: IAuthLayout) {
           className="w-[600px]"
         />
       </section>
-      <section className="w-full h-full border-2 border-black lg:col-span-3  ">
-        <div className="flex flex-col justify-between h-full px-5 py-8">
+      <section className="w-full h-full  lg:col-span-3  ">
+        <div className="flex flex-col  h-full justify-between  p-5">
           <Link
             className="text-black flex text-lg items-center  group"
             href={props.route.href}
@@ -43,7 +40,7 @@ export default function AuthLayout(props: IAuthLayout) {
             <span>{props.route.title}</span>
           </Link>
           <div></div>
-          <div className="flex flex-col gap-10 items-center  justify-center">
+          <div className="flex flex-col gap-5 items-center   justify-center">
             <h1 className={`${fontHeader.className} text-7xl tracking-wide`}>
               {props.title}
             </h1>

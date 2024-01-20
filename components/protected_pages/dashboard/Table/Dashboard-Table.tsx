@@ -7,8 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { fontHeader } from "@/fonts/Fonts";
+import { fontHeader, inter } from "@/fonts/Fonts";
 import React, { useEffect, useMemo, useState } from "react";
+import { AiOutlineLoading } from "react-icons/ai";
 import { MoreHorizontal, ShoppingBagIcon } from "lucide-react";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
@@ -17,13 +18,12 @@ import { MdOutlineCheckCircleOutline } from "react-icons/md";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { IFormData } from "../../CategorySelector";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Edit from "./EditExpense";
+import Edit from "./Edit";
 import Delete from "./Delete";
 
 const tabs = ["today", "week", "month", "year"];
@@ -35,8 +35,14 @@ const getFirstAndLastDayOfWeek = () => {
 
   firstDayOfWeek.setDate(currentDate.getDate() - currentDay);
   lastDayOfWeek.setDate(currentDate.getDate() + (6 - currentDay));
+  const startDayOfWeek = firstDayOfWeek.toLocaleString(undefined, {
+    day: "numeric",
+  });
+  const endDayOfWeek = lastDayOfWeek.toLocaleString(undefined, {
+    day: "numeric",
+  });
 
-  return { firstDayOfWeek, lastDayOfWeek };
+  return { startDayOfWeek, endDayOfWeek };
 };
 
 const IconHandler = (cate: string) => (
@@ -54,16 +60,13 @@ interface ITable {
 export default function DashboardTable({ tableData }: ITable) {
   const [tab, setTab] = useState("today");
   const [transactions, setTransaction] = useState<IFormData[]>();
-  const date = new Date();
+  const [loading, setLoading] = useState(false);
+
   const supabase = createClientComponentClient();
-  const { firstDayOfWeek, lastDayOfWeek } = getFirstAndLastDayOfWeek();
-  const startDayOfWeek = firstDayOfWeek.toLocaleString(undefined, {
-    day: "numeric",
-  });
-  const endDayOfWeek = lastDayOfWeek.toLocaleString(undefined, {
-    day: "numeric",
-  });
+  const { startDayOfWeek, endDayOfWeek } = getFirstAndLastDayOfWeek();
+
   const queryHandler = (props: { query: "gte" | "lte" }) => {
+    const date = new Date();
     if (props.query === "gte") {
       if (tab === "today")
         return `2024-${date.getMonth() + 1}-${date.getDate()}`;
@@ -80,8 +83,10 @@ export default function DashboardTable({ tableData }: ITable) {
       if (tab === "year") return `${date.getFullYear()}-12-30`;
     }
   };
+
   useEffect(() => {
     const Fetch = async () => {
+      setLoading(true);
       const {
         data: { user },
       }: any = await supabase.auth.getUser();
@@ -99,9 +104,11 @@ export default function DashboardTable({ tableData }: ITable) {
       if (error) {
         toast.error(error.message);
       }
+      setLoading(false);
     };
     Fetch();
   }, [tableData, tab]);
+  console.log(loading);
 
   return (
     <div className="flex flex-col gap-3">
@@ -119,17 +126,18 @@ export default function DashboardTable({ tableData }: ITable) {
           </button>
         ))}
       </section>
-      <header className="flex text-lg justify-between px-4 items-center ">
-        <p>Recent Transactions:</p>
-        <button>See All</button>
-      </header>
+      <h1 className={`${inter.className} text-xl  `}>Recent Transactions:</h1>
       <Table>
         <TableHeader className=" flex text-white w-full">
-          <TableRow className="flex w-full mb-4">
-            <TableHead className="p-4 w-1/2 sm:w-1/4">Category</TableHead>
-            <TableHead className="p-4 w-1/3">Amount</TableHead>
-            <TableHead className="p-4 w-1/4 hidden sm:block">Date</TableHead>
-            <TableHead className="p-4 w-1/4">Action</TableHead>
+          <TableRow className="flex w-full mb-4 ">
+            <TableHead className="p-4 w-1/2 sm:w-1/4 md:text-center">
+              Category
+            </TableHead>
+            <TableHead className="p-4 w-1/3 text-center">Amount</TableHead>
+            <TableHead className="p-4 w-1/4 hidden sm:block text-center">
+              Date
+            </TableHead>
+            <TableHead className="p-4 w-1/4 text-center">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody className="bg-grey-light flex flex-col items-center  overflow-y-scroll w-full h-[300px] border-b  border-gray-300">
@@ -138,27 +146,33 @@ export default function DashboardTable({ tableData }: ITable) {
               <TableRow className="flex w-full mb-4 " key={i}>
                 <TableCell
                   className={cn(
-                    "p-4 w-1/2 sm:w-1/4 flex items-center gap-1  text-lg"
+                    "p-4 w-1/2 sm:w-1/4 flex items-center gap-1  text-lg md:justify-center"
                   )}
                 >
                   <p className="text-xl">{IconHandler(`${item.category}`)}</p>
-                  <p className="first-letter:uppercase">{item.category}</p>
+                  <p
+                    className={cn(
+                      item.type === "income" ? "text-green-600" : "text-red-600"
+                    )}
+                  >
+                    {item.category}
+                  </p>
                 </TableCell>
                 <TableCell
                   className={cn(
-                    "p-4 w-1/3 sm:w-1/4",
+                    "p-4 w-1/3 sm:w-1/4 flex justify-center",
                     item.type === "income" ? "text-green-600" : "text-red-600"
                   )}
                 >
                   {item.amount}$
                 </TableCell>
-                <TableCell className="p-4 w-1/4 hidden sm:block">
+                <TableCell className="p-4 w-1/4 hidden sm:flex justify-center">
                   {item.date}
                 </TableCell>
-                <TableCell className="p-4 w-1/4">
+                <TableCell className="p-4 w-1/4 flex justify-center">
                   {" "}
                   <DropdownMenu>
-                    <DropdownMenuTrigger className="text-xl flex items-center">
+                    <DropdownMenuTrigger className="text-xl flex justify-center text-center items-center">
                       <MoreHorizontal />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
@@ -170,6 +184,7 @@ export default function DashboardTable({ tableData }: ITable) {
                         date={item.date}
                         category={item.category}
                         id={item.id}
+                        description={item.description}
                       />
                       <Delete id={`${item.id}`} />
                     </DropdownMenuContent>
@@ -181,6 +196,14 @@ export default function DashboardTable({ tableData }: ITable) {
             <TableRow className="flex w-full mb-4 ">
               <TableCell className="p-4 w-full text-center text-lg">
                 No Data
+              </TableCell>
+            </TableRow>
+          )}
+          {loading && (
+            <TableRow className="flex w-full mb-4 ">
+              <TableCell className="p-4 w-full text-center text-lg flex justify-center items-center gap-2">
+                <AiOutlineLoading className="animate-spin text-blue-500 text-xl" />
+                Loading data...
               </TableCell>
             </TableRow>
           )}
