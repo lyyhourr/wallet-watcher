@@ -4,8 +4,17 @@ import MobileMenu from "./Mobile-Menu";
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import { User } from "lucide-react";
+import { cookies } from "next/headers";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cn } from "@/lib/utils";
 
-export default function Navbar() {
+export default async function Navbar() {
+  const cookieStore = cookies();
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <nav className="flex items-center justify-between px-5 bg-main  lg:px-20  py-4 border-b border-gray-400 fixed top-0 w-full">
       <Logo />
@@ -14,13 +23,19 @@ export default function Navbar() {
         <div className="flex items-center gap-3 text-white">
           <Link
             href={"/dashboard"}
-            className="bg-secondary-color px-5 py-2 rounded-md "
+            className={cn(
+              " px-5 py-2 rounded-md ",
+              user ? "bg-primary-color" : "bg-secondary-color"
+            )}
           >
-            Login
+            {user ? "Dashboard" : "Log in"}
           </Link>
           <Link
             href={"/register"}
-            className="bg-primary-color px-5 py-2 rounded-md "
+            className={cn(
+              "bg-primary-color px-5 py-2 rounded-md ",
+              user && "hidden"
+            )}
           >
             Register
           </Link>
