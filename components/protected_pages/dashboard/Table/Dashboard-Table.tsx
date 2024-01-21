@@ -11,10 +11,7 @@ import { fontHeader, inter } from "@/fonts/Fonts";
 import React, { useEffect, useMemo, useState } from "react";
 import { AiOutlineLoading } from "react-icons/ai";
 import { MoreHorizontal, ShoppingBagIcon } from "lucide-react";
-import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
-import { GiFirstAidKit } from "react-icons/gi";
-import { MdOutlineCheckCircleOutline } from "react-icons/md";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { IFormData } from "../../CategorySelector";
 import toast from "react-hot-toast";
@@ -26,7 +23,6 @@ import {
 import Edit from "./Edit";
 import Delete from "./Delete";
 import { IconHandler } from "../../Category-Icons";
-import { IoMdBuild } from "react-icons/io";
 
 const tabs = ["today", "week", "month", "year"];
 const getFirstAndLastDayOfWeek = () => {
@@ -101,7 +97,6 @@ export default function DashboardTable({ tableData }: ITable) {
     };
     Fetch();
   }, [tableData, tab]);
-  console.log(loading);
 
   return (
     <div className="flex flex-col gap-3">
@@ -123,9 +118,7 @@ export default function DashboardTable({ tableData }: ITable) {
       <Table>
         <TableHeader className=" flex text-white w-full">
           <TableRow className="flex w-full mb-4 ">
-            <TableHead className="p-4 w-1/2 sm:w-1/4 md:text-center">
-              Category
-            </TableHead>
+            <TableHead className="p-4 w-1/2 sm:w-1/4 ">Category</TableHead>
             <TableHead className="p-4 w-1/3 text-center">Amount</TableHead>
             <TableHead className="p-4 w-1/4 hidden sm:block text-center">
               Date
@@ -195,7 +188,7 @@ export default function DashboardTable({ tableData }: ITable) {
             <TableRow className="flex w-full mb-4 ">
               <TableCell className="p-4 w-full text-center text-lg flex justify-center items-center gap-2">
                 <AiOutlineLoading className="animate-spin text-blue-500 text-xl" />
-                Loading data...
+                Getting data...
               </TableCell>
             </TableRow>
           )}
