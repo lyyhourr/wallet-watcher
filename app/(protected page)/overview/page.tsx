@@ -1,12 +1,11 @@
 import Card from "@/components/protected_pages/Card";
-import MonthSlider from "@/components/protected_pages/overview/MonthSlide";
 import { fontHeader } from "@/fonts/Fonts";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import React from "react";
 import { BiDollar } from "react-icons/bi";
 import { GiExpense, GiMoneyStack, GiStairsGoal } from "react-icons/gi";
-import { SumTotal } from "../dashboard/page";
+import OverviewTable from "@/components/protected_pages/overview/OverviewTable";
 
 const FetchTransactions = async () => {
   const cookieStore = cookies();
@@ -106,7 +105,7 @@ export default async function DashbaordOverview() {
       </section>
       <section className="flex flex-col xl:flex-row gap-2">
         <div className="w-full  ">
-          <MonthSlider userId={`${user?.id}`} tableData={data} />
+          <OverviewTable userId={`${user?.id}`} tableData={data} />
         </div>
         <div className="w-full  rounded-md flex flex-col justify-between py-10   px-2 gap-10 xl:gap-0  bg-slate-100">
           <div className="flex w-full pl-2 sm:justify-evenly">

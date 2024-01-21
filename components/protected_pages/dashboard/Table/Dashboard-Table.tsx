@@ -177,7 +177,7 @@ export default function DashboardTable({ tableData }: ITable) {
                 </TableCell>
               </TableRow>
             ))}
-          {!transactions && (
+          {!transactions?.length && !loading && (
             <TableRow className="flex w-full mb-4 ">
               <TableCell className="p-4 w-full text-center text-lg">
                 No Data

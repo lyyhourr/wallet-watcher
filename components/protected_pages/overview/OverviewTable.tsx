@@ -24,10 +24,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Edit from "../dashboard/Table/Edit";
 import Delete from "../dashboard/Table/Delete";
-import { IconHandler } from "../Category-Icons";
 import { cn } from "@/lib/utils";
 import { AiOutlineLoading } from "react-icons/ai";
-import { useRouter } from "next/navigation";
 
 const months = [
   "January",
@@ -44,7 +42,7 @@ const months = [
   "December",
 ];
 
-const MonthSlider = ({
+const OverviewTable = ({
   userId,
   tableData,
 }: {
@@ -56,32 +54,32 @@ const MonthSlider = ({
   const supabase = createClientComponentClient();
   const [transactions, setTransaction] = useState<IFormData[]>();
   const [loading, setLoading] = useState(false);
-  const TotalIncome = transactions
-    ? transactions
-        ?.filter((item) => item.type === "income")
-        .map((item) => Number(item.amount))
-        .reduce((a: number, b: number) => a + b, 0)
-    : 0;
-  const TotalExpense = transactions
-    ? transactions
-        ?.filter((item) => item.type === "expense")
-        .map((item) => Number(item.amount))
-        .reduce((a: number, b: number) => a + b, 0)
-    : 0;
-  const left = TotalIncome - TotalExpense;
 
-  useEffect(() => {
-    setOnSlide(months[currentMonthIndex]);
-  }, [currentMonthIndex]);
-  const goToNextMonth = () => {
-    setCurrentMonthIndex((prevIndex) => (prevIndex + 1) % months.length);
+  const SumTotal = (type: string) => {
+    const total = transactions
+      ? transactions
+          ?.filter((item) => item.type === type)
+          .map((item) => Number(item.amount))
+          .reduce((a: number, b: number) => a + b, 0)
+      : 0;
+    return total;
   };
+  const TotalIncome = SumTotal("income");
+  const TotalExpense = SumTotal("expense");
+  const left = TotalIncome - TotalExpense;
 
   const goToPreviousMonth = () => {
     setCurrentMonthIndex(
       (prevIndex) => (prevIndex - 1 + months.length) % months.length
     );
   };
+  const goToNextMonth = () => {
+    setCurrentMonthIndex((prevIndex) => (prevIndex + 1) % months.length);
+  };
+
+  useEffect(() => {
+    setOnSlide(months[currentMonthIndex]);
+  }, [currentMonthIndex]);
 
   useEffect(() => {
     const date = new Date();
@@ -152,7 +150,6 @@ const MonthSlider = ({
                       item.type === "income" ? "text-green-600" : "text-red-600"
                     )}
                   >
-                    <p className="text-sm">{IconHandler(`${item.category}`)}</p>
                     <p className="text-sm">{item.category}</p>
                   </TableCell>
                   <TableCell
@@ -189,7 +186,7 @@ const MonthSlider = ({
                   </TableCell>
                 </TableRow>
               ))}
-            {!transactions?.length && (
+            {!transactions?.length && !loading && (
               <TableRow className="flex w-full mb-4 ">
                 <TableCell className="p-4 w-full text-center text-lg">
                   No Data
@@ -227,4 +224,4 @@ const MonthSlider = ({
   );
 };
 
-export default MonthSlider;
+export default OverviewTable;
