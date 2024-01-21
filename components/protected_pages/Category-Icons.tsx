@@ -1,24 +1,28 @@
 import { AiOutlineInsurance } from "react-icons/ai";
 import {
+  FaHandHoldingDollar,
   FaHouse,
   FaInternetExplorer,
   FaMoneyBillTrendUp,
 } from "react-icons/fa6";
 import { IoMdBuild } from "react-icons/io";
 import {
+  MdBusinessCenter,
+  MdOutlineCarRental,
   MdOutlineEmojiTransportation,
   MdOutlineLocalGroceryStore,
   MdOutlineSubscriptions,
   MdOutlineTravelExplore,
   MdPayments,
 } from "react-icons/md";
-import { SiDcentertainment } from "react-icons/si";
+import { RiMoneyDollarCircleLine } from "react-icons/ri";
+import { SiDcentertainment, SiFreelancer } from "react-icons/si";
 import { HiOutlineReceiptTax } from "react-icons/hi";
 import { TbHealthRecognition } from "react-icons/tb";
 import { GiClothes, GiLoveMystery, GiLovers } from "react-icons/gi";
-import { BiBookReader } from "react-icons/bi";
+import { BiBookReader, BiMoneyWithdraw } from "react-icons/bi";
 import { CiGift } from "react-icons/ci";
-import { LiaChildSolid } from "react-icons/lia";
+import { LiaChildSolid, LiaMoneyBillAlt } from "react-icons/lia";
 import { PiDotsThreeCircleVerticalLight } from "react-icons/pi";
 
 export const expenseCategories = [
@@ -46,14 +50,15 @@ export const incomeCategories = [
   "Salary",
   "Bonus",
   "Tips",
-  "Rental ",
-  "Retirement ",
-  "Freelance/Contract ",
-  "Business ",
-  "other ",
+  "Rental",
+  "Retirement",
+  "Freelance/Contract",
+  "Business",
+  "other",
 ];
 export const IconHandler = (cate: string) => (
   <span>
+    {/* expenses */}
     {cate === "Housing/Renting" && <FaHouse />}
     {cate === "Utilities" && <IoMdBuild />}
     {cate === "Groceries" && <MdOutlineLocalGroceryStore />}
@@ -73,5 +78,14 @@ export const IconHandler = (cate: string) => (
     {cate === "Childcare" && <LiaChildSolid />}
     {cate === "Subscriptions" && <MdOutlineSubscriptions />}
     {cate === "other" && <PiDotsThreeCircleVerticalLight />}
+
+    {/* incomes */}
+    {cate === "Salary" && <RiMoneyDollarCircleLine />}
+    {cate === "Bonus" && <BiMoneyWithdraw />}
+    {cate === "Tips" && <LiaMoneyBillAlt />}
+    {cate === "Rental" && <MdOutlineCarRental />}
+    {cate === "Retirement" && <FaHandHoldingDollar />}
+    {cate === "Freelance/Contract" && <SiFreelancer />}
+    {cate === "Business" && <MdBusinessCenter />}
   </span>
 );

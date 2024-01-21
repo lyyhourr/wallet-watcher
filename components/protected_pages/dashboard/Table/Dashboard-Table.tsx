@@ -139,12 +139,16 @@ export default function DashboardTable({ tableData }: ITable) {
               <TableRow className="flex w-full mb-4 " key={i}>
                 <TableCell
                   className={cn(
-                    "p-4 w-1/2 sm:w-1/4 flex items-center gap-1  text-lg md:justify-center",
+                    "p-4 w-1/2 sm:w-1/4 flex items-center gap-1  text-lg md:justify-start",
                     item.type === "income" ? "text-green-600" : "text-red-600"
                   )}
                 >
-                  <p className="text-xl">{IconHandler(`${item.category}`)}</p>
-                  <p className={cn()}>{item.category}</p>
+                  <p className="text-sm sm:text-base md:text-lg">
+                    {IconHandler(`${item.category}`)}
+                  </p>
+                  <p className="text-sm sm:text-base md:text-lg">
+                    {item.category}
+                  </p>
                 </TableCell>
                 <TableCell
                   className={cn(
