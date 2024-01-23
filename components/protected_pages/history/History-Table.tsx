@@ -20,9 +20,11 @@ import { cn } from "@/lib/utils";
 import { IFormData } from "../CategorySelector";
 import { AiOutlineLoading } from "react-icons/ai";
 
-export default function HistoryTable({ tableData }: { tableData: any }) {
-  const [transactions, setTransaction] = useState<IFormData[]>(tableData);
-  const [loading, setLoading] = useState(false);
+interface IProps {
+  tableData: any;
+}
+
+export default function HistoryTable(props: IProps) {
   return (
     <Table>
       <TableHeader className=" flex text-white w-full">
@@ -36,8 +38,8 @@ export default function HistoryTable({ tableData }: { tableData: any }) {
         </TableRow>
       </TableHeader>
       <TableBody className="bg-grey-light flex flex-col items-center  overflow-y-scroll w-full h-[500px] border-b  border-gray-300">
-        {transactions &&
-          transactions?.map((item, i) => (
+        {props.tableData &&
+          props.tableData?.map((item: any, i: number) => (
             <TableRow className="flex w-full mb-4 " key={i}>
               <TableCell
                 className={cn(
@@ -83,18 +85,10 @@ export default function HistoryTable({ tableData }: { tableData: any }) {
               </TableCell>
             </TableRow>
           ))}
-        {!transactions?.length && !loading && (
+        {!props.tableData?.length && (
           <TableRow className="flex w-full mb-4 ">
             <TableCell className="p-4 w-full text-center text-lg">
-              No Data
-            </TableCell>
-          </TableRow>
-        )}
-        {loading && (
-          <TableRow className="flex w-full mb-4 ">
-            <TableCell className="p-4 w-full text-center text-lg flex justify-center items-center gap-2">
-              <AiOutlineLoading className="animate-spin text-blue-500 text-xl" />
-              Getting data...
+              No Record Found!
             </TableCell>
           </TableRow>
         )}
