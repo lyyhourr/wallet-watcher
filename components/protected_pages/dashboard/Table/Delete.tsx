@@ -27,10 +27,10 @@ export default function Delete({ id }: { id: string | number }) {
     if (!error) {
       toast.success("transactions deleted!");
       setOpen(false);
-      router.refresh();
     } else {
       toast.success("delete failed!");
     }
+    router.refresh();
   };
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>

@@ -69,9 +69,9 @@ export default function Edit(props: IFormData) {
       } else {
         toast.success("transaction updated");
         setOpen(false);
-        router.refresh();
       }
     }
+    router.refresh();
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>

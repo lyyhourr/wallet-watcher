@@ -46,6 +46,26 @@ const getFirstAndLastDayOfWeek = () => {
 interface ITable {
   tableData: IFormData[];
 }
+const { startDayOfWeek, endDayOfWeek } = getFirstAndLastDayOfWeek();
+
+export const queryHandler = (props: { query: "gte" | "lte", tab: string }) => {
+  const date = new Date();
+  if (props.query === "gte") {
+    if (props.tab === "today")
+      return `2024-${date.getMonth() + 1}-${date.getDate()}`;
+    if (props.tab === "month") return `2024-${date.getMonth() + 1}-1`;
+    if (props.tab === "week")
+      return `2024-${date.getMonth() + 1}-${startDayOfWeek}`;
+    if (props.tab === "year") return `${date.getFullYear()}-1-1`;
+  }
+  if (props.query === "lte") {
+    if (props.tab === "today")
+      return `2024-${date.getMonth() + 1}-${date.getDate()}`;
+    if (props.tab === "month") return `2024-${date.getMonth() + 1}-30`;
+    if (props.tab === "week") return `2024-${date.getMonth() + 1}-${endDayOfWeek}`;
+    if (props.tab === "year") return `${date.getFullYear()}-12-30`;
+  }
+};
 export default function DashboardTable({ tableData }: ITable) {
   const [tab, setTab] = useState("today");
   const [transactions, setTransaction] = useState<IFormData[]>();

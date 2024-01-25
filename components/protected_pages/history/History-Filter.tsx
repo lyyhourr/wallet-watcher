@@ -1,6 +1,6 @@
 "use client";
 import { fontHeader, inter } from "@/fonts/Fonts";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { Command, CommandGroup, CommandItem } from "@/components/ui/command";
 import {
   Popover,
@@ -10,45 +10,46 @@ import {
 import { Button } from "@/components/ui/button";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { queryHandler } from "../dashboard/Table/Dashboard-Table";
+const Category = [
+  "Housing/Renting",
+  "Utilities",
+  "Groceries",
+  "Transportation",
+  "Insurance",
+  "Loan Payments",
+  "Taxes",
+  "Healthcare",
+  "Entertainment",
+  "Internet and Phone",
+  "Clothing",
+  "Personal Care",
+  "Investments",
+  "Education",
+  "Gifts/Donations",
+  "Travel",
+  "Childcare",
+  "Subscriptions",
+  "other",
+  "Salary",
+  "Bonus",
+  "Tips",
+  "Rental",
+  "Retirement",
+  "Freelance/Contract",
+  "Business",
+  "other",
+];
 export default function HistoryFilter({
   setTableData,
-  Alldata,
   setOpenDrawer,
-  tableData,
+  userId,
 }: any) {
-  const Category = [
-    "Housing/Renting",
-    "Utilities",
-    "Groceries",
-    "Transportation",
-    "Insurance",
-    "Loan Payments",
-    "Taxes",
-    "Healthcare",
-    "Entertainment",
-    "Internet and Phone",
-    "Clothing",
-    "Personal Care",
-    "Investments",
-    "Education",
-    "Gifts/Donations",
-    "Travel",
-    "Childcare",
-    "Subscriptions",
-    "other",
-    "Salary",
-    "Bonus",
-    "Tips",
-    "Rental",
-    "Retirement",
-    "Freelance/Contract",
-    "Business",
-    "other",
-  ];
+
   const [open, setOpen] = useState(false);
-  const [userFilter, setUserFilter] = useState([""]);
   const [category, setCategory] = useState("");
+  const supabase = createClientComponentClient();
   const [filters, setFilters] = useState([
     {
       type: "Date",
@@ -56,20 +57,16 @@ export default function HistoryFilter({
       selected: "",
     },
     {
-      type: "Filter By",
-      filter: ["Income", "Expense"],
-      selected: "",
-    },
-    {
       type: "Sort By",
       filter: ["Highest", "Lowest", "Oldest", "Lastest"],
       selected: "",
     },
+    {
+      type: "Filter By",
+      filter: ["Income", "Expense"],
+      selected: "",
+    },
   ]);
-
-  React.useEffect(() => {
-    setUserFilter(filters.map((item) => item.selected));
-  }, [filters]);
 
   const handleSelectedCategory = (
     selectedType: string,
@@ -87,35 +84,71 @@ export default function HistoryFilter({
   };
 
   const HandleFilter = async () => {
-    if (category.length > 1) {
-      setTableData(Alldata.filter((item: any) => item.category === category));
+    var sortBy
+    var sortOn
+    if (filters[1].selected.includes("Highest")) {
+      sortBy = "amount"
+      sortOn = false
+    }
+    else if (filters[1].selected.includes("Lowest")) {
+      sortBy = "amount"
+      sortOn = true
+    }
+    else if (filters[1].selected.includes("Oldest")) {
+      sortBy = "date"
+      sortOn = true
+    }
+    else {
+      sortBy = "date"
+      sortOn = false
     }
 
-    if (userFilter.includes("Income")) {
-      if (category.length > 1) {
-        setTableData(
-          Alldata.filter(
-            (item: any) => item.type === "income" && item.category === category
-          )
-        );
-      } else {
-        setTableData(Alldata.filter((item: any) => item.type === "income"));
-      }
-    }
-    if (userFilter.includes("Expense")) {
-      setTableData(Alldata.filter((item: any) => item.type === "expense"));
+
+
+    const filterBy = filters[2].selected.toLowerCase()
+    if (filters[0].selected.length > 2) {
+      const { data } = await supabase
+        .from("transactions")
+        .select("*")
+        .eq("user_id", userId)
+        .like("type", `%${filterBy}%`)
+        .like("category", `%${category}%`)
+        .order(sortBy, { ascending: sortOn })
+        .gte("date", queryHandler({ query: "gte", tab: filters[0].selected.toLowerCase() }) + "T00:00:00.000Z")
+        .lte("date", queryHandler({ query: "lte", tab: filters[0].selected.toLowerCase() }) + "T00:00:00.000Z")
+      setTableData(data)
+
+    } else {
+
+
+      const { data } = await supabase
+        .from("transactions")
+        .select("*")
+        .eq("user_id", userId)
+        .like("type", `%${filterBy}%`)
+        .like("category", `%${category}%`)
+        .order(sortBy, { ascending: sortOn })
+
+      setTableData(data)
     }
     setOpenDrawer(false);
-    setCategory("");
+
+
   };
-  const hanldleReset = () => {
+
+  const hanldleReset = async () => {
     setCategory("");
-    setUserFilter([""]);
     setFilters((prev) =>
       prev.map((p) =>
         p.selected.length > 1 ? { ...p, selected: "" } : { ...p }
       )
     );
+    const { data } = await supabase
+      .from("transactions")
+      .select("*")
+      .eq("user_id", userId)
+    setTableData(data)
+    setOpenDrawer(false);
   };
   return (
     <div className="flex flex-col gap-5 h-full">
@@ -135,7 +168,7 @@ export default function HistoryFilter({
                   key={fil}
                   className={cn(
                     "w-[80px] py-1 rounded-md text-gray-500 bg-gray-200",
-                    userFilter.includes(fil) && "text-white bg-card-green"
+                    filters.map(item => item.selected === fil && "bg-card-green text-white")
                   )}
                   onClick={() => {
                     handleSelectedCategory(item.type, fil);
@@ -187,6 +220,12 @@ export default function HistoryFilter({
               </Command>
             </PopoverContent>
           </Popover>
+        </div>
+      </div>
+      <div className="flex items-center gap-3">
+        <p>Filter :</p>
+        <div className="flex items-center gap-2">
+          {filters.map((item, i) => <span key={i}>{item.selected}</span>)}
         </div>
       </div>
       <div className="flex items-end justify-center gap-2 mt-auto">

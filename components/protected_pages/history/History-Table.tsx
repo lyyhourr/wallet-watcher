@@ -17,11 +17,12 @@ import React, { useState } from "react";
 import Delete from "../dashboard/Table/Delete";
 import Edit from "../dashboard/Table/Edit";
 import { cn } from "@/lib/utils";
-import { IFormData } from "../CategorySelector";
 import { AiOutlineLoading } from "react-icons/ai";
 
 interface IProps {
   tableData: any;
+  loading: boolean
+
 }
 
 export default function HistoryTable(props: IProps) {
@@ -37,7 +38,7 @@ export default function HistoryTable(props: IProps) {
           <TableHead className="p-4 w-1/4 text-center">Action</TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody className="bg-grey-light flex flex-col items-center  overflow-y-scroll w-full h-[500px] border-b  border-gray-300">
+      <TableBody className="bg-grey-light flex flex-col items-center  overflow-y-scroll w-full h-[calc(100vh-100px)] border-b  border-gray-300">
         {props.tableData &&
           props.tableData?.map((item: any, i: number) => (
             <TableRow className="flex w-full mb-4 " key={i}>
@@ -85,10 +86,18 @@ export default function HistoryTable(props: IProps) {
               </TableCell>
             </TableRow>
           ))}
-        {!props.tableData?.length && (
+        {!props.tableData?.length && !props.loading && (
           <TableRow className="flex w-full mb-4 ">
             <TableCell className="p-4 w-full text-center text-lg">
               No Record Found!
+            </TableCell>
+          </TableRow>
+        )}
+        {!props.tableData?.length && props.loading && (
+          <TableRow className="flex w-full mb-4 ">
+            <TableCell className="p-4 w-full text-center text-lg flex items-center justify-center gap-1">
+              <AiOutlineLoading className="text--blue-600 text-2xl animate-spin" />
+              <p>Loading...</p>
             </TableCell>
           </TableRow>
         )}
