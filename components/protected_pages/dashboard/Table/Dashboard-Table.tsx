@@ -49,7 +49,7 @@ interface ITable {
 }
 const { startDayOfWeek, endDayOfWeek } = getFirstAndLastDayOfWeek();
 
-export const queryHandler = (props: { query: "gte" | "lte", tab: string }) => {
+export const queryHandler = (props: { query: "gte" | "lte"; tab: string }) => {
   const date = new Date();
   if (props.query === "gte") {
     if (props.tab === "today")
@@ -63,7 +63,8 @@ export const queryHandler = (props: { query: "gte" | "lte", tab: string }) => {
     if (props.tab === "today")
       return `2024-${date.getMonth() + 1}-${date.getDate()}`;
     if (props.tab === "month") return `2024-${date.getMonth() + 1}-30`;
-    if (props.tab === "week") return `2024-${date.getMonth() + 1}-${endDayOfWeek}`;
+    if (props.tab === "week")
+      return `2024-${date.getMonth() + 1}-${endDayOfWeek}`;
     if (props.tab === "year") return `${date.getFullYear()}-12-30`;
   }
 };
@@ -104,7 +105,7 @@ export default function DashboardTable({ tableData }: ITable) {
       const { error, data } = await supabase
         .from("transactions")
         .select("*")
-        .eq("user_id", user.id)
+        .eq("user_id", user?.id)
         .order("date", { ascending: true })
         .gte("date", queryHandler({ query: "gte" }) + "T00:00:00.000Z")
         .lte("date", queryHandler({ query: "lte" }) + "T00:00:00.000Z");
