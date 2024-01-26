@@ -1,17 +1,18 @@
 "use client";
 import { fontHeader, inter } from "@/fonts/Fonts";
-import React, { useState } from "react";
-import { Command, CommandGroup, CommandItem } from "@/components/ui/command";
+import React, { useEffect, useState } from "react";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Divide } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { queryHandler } from "../dashboard/Table/Dashboard-Table";
+import { expenseCategories, incomeCategories } from "../Category-Icons";
 const Category = [
   "Housing/Renting",
   "Utilities",
@@ -45,6 +46,7 @@ export default function HistoryFilter({
   setTableData,
   setOpenDrawer,
   userId,
+  tabelData
 }: any) {
 
   const [open, setOpen] = useState(false);
@@ -103,8 +105,6 @@ export default function HistoryFilter({
       sortOn = false
     }
 
-
-
     const filterBy = filters[2].selected.toLowerCase()
     if (filters[0].selected.length > 2) {
       const { data } = await supabase
@@ -150,9 +150,12 @@ export default function HistoryFilter({
     setTableData(data)
     setOpenDrawer(false);
   };
+
+
+  const categoryFitler = filters[2].selected.length > 1 ? filters[2].selected === "Income" ? incomeCategories : expenseCategories : Category
   return (
     <div className="flex flex-col gap-5 h-full">
-      <h1 className={`${fontHeader.className} text-center text-3xl uppercase`}>
+      <h1 className={`${inter.className}  text-center text-3xl `}>
         Filter
       </h1>
       <div className=" flex flex-col gap-5">
@@ -188,16 +191,19 @@ export default function HistoryFilter({
               <Button
                 variant="outline"
                 role="combobox"
-                className="w-[170px] md:w-[200px] justify-between"
+                aria-expanded={open}
+                className="w-[250px] justify-between"
               >
-                {category.length ? category : "Select Category"}
+                {category ? category : "Select a Category"}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[200px] p-0">
+            <PopoverContent className="w-[250px] p-0">
               <Command>
+                <CommandInput placeholder="Search Category..." />
+                <CommandEmpty>No Category found.</CommandEmpty>
                 <CommandGroup className="h-[300px] overflow-auto">
-                  {Category.map((cate, i) => (
+                  {categoryFitler.map((cate, i) => (
                     <div
                       className=""
                       onClick={() => {
@@ -222,12 +228,20 @@ export default function HistoryFilter({
           </Popover>
         </div>
       </div>
-      <div className="flex items-center gap-3">
-        <p>Filter :</p>
-        <div className="flex items-center gap-2">
-          {filters.map((item, i) => <span key={i}>{item.selected}</span>)}
-        </div>
-      </div>
+      {
+        filters[0].selected.length || filters[1].selected.length || filters[2].selected.length ? (
+          <div className="flex items-center gap-2">
+            <p>Filtering : </p>
+            <div className="flex items-center gap-2">
+              {filters.map((item, i) => <span key={i}>{item.selected}</span>)}
+            </div>
+          </div>
+        ) : (<></>)
+      }
+      {
+        category.length ? <p>Category : {category}</p> : <></>
+      }
+
       <div className="flex items-end justify-center gap-2 mt-auto">
         <button
           className="w-full py-2 rounded-lg text-lg bg-card-green text-white"

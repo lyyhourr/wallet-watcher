@@ -20,9 +20,10 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Edit from "./Edit";
 import Delete from "./Delete";
 import { IconHandler } from "../../Category-Icons";
+import EditExpense from "./Edit";
+import Edit from "./Edit";
 
 const tabs = ["today", "week", "month", "year"];
 const getFirstAndLastDayOfWeek = () => {
@@ -104,7 +105,7 @@ export default function DashboardTable({ tableData }: ITable) {
         .from("transactions")
         .select("*")
         .eq("user_id", user.id)
-        .order("date", { ascending: false })
+        .order("date", { ascending: true })
         .gte("date", queryHandler({ query: "gte" }) + "T00:00:00.000Z")
         .lte("date", queryHandler({ query: "lte" }) + "T00:00:00.000Z");
       if (data) {
@@ -185,6 +186,7 @@ export default function DashboardTable({ tableData }: ITable) {
                       side="bottom"
                     >
                       <Edit
+                        type={item.type}
                         amount={item.amount}
                         date={item.date}
                         category={item.category}

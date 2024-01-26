@@ -8,17 +8,27 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { fontHeader } from "@/fonts/Fonts";
-import { TDataTest } from "@/types/types";
 import React, { useState } from "react";
-import CategorySelector, { IFormData } from "../../CategorySelector";
+import CategorySelector from "../../CategorySelector";
 import { Textarea } from "@/components/ui/textarea";
 import toast from "react-hot-toast";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
-import { expenseCategories } from "../../Category-Icons";
+import { expenseCategories, incomeCategories } from "../../Category-Icons";
+
+interface IFormData {
+  id?: string | number;
+  type?: string;
+  amount?: string;
+  date?: string;
+  description?: string;
+  category?: string;
+
+}
 
 export default function Edit(props: IFormData) {
   const initialData = {
+    type: props.type === "income" ? "income" : "expense",
     amount: props.amount,
     date: props.date,
     category: props.category,
@@ -57,6 +67,7 @@ export default function Edit(props: IFormData) {
         .from("transactions")
         .update([
           {
+            type: formData.type,
             amount: formData.amount,
             date: formData.date,
             description: formData.description,
@@ -80,7 +91,7 @@ export default function Edit(props: IFormData) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader className={`${fontHeader.className} text-3xl`}>
-          Edit Expense
+          Edit {props.type === "expense" ? "expense" : "income"}
         </DialogHeader>
         <form
           action=""
@@ -106,7 +117,7 @@ export default function Edit(props: IFormData) {
             <CategorySelector
               formData={formData}
               setFormData={setFormData}
-              category={expenseCategories}
+              category={props.type === "expense" ? expenseCategories : incomeCategories}
               defaultValue={props.category}
             />
           </div>

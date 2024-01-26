@@ -1,4 +1,3 @@
-"use client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,11 +12,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { MoreHorizontal } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 import Delete from "../dashboard/Table/Delete";
-import Edit from "../dashboard/Table/Edit";
 import { cn } from "@/lib/utils";
 import { AiOutlineLoading } from "react-icons/ai";
+import Edit from "../dashboard/Table/Edit";
 
 interface IProps {
   tableData: any;
@@ -26,6 +25,7 @@ interface IProps {
 }
 
 export default function HistoryTable(props: IProps) {
+
   return (
     <Table>
       <TableHeader className=" flex text-white w-full">
@@ -38,7 +38,7 @@ export default function HistoryTable(props: IProps) {
           <TableHead className="p-4 w-1/4 text-center">Action</TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody className="bg-grey-light flex flex-col items-center  overflow-y-scroll w-full h-[calc(100vh-100px)] border-b  border-gray-300">
+      <TableBody className="bg-grey-light flex flex-col items-center  overflow-y-scroll w-full  h-[calc(100vh-100px)] border-b  border-gray-300">
         {props.tableData &&
           props.tableData?.map((item: any, i: number) => (
             <TableRow className="flex w-full mb-4 " key={i}>
@@ -60,7 +60,7 @@ export default function HistoryTable(props: IProps) {
               >
                 {item.amount}$
               </TableCell>
-              <TableCell className="p-4 w-1/4 hidden sm:flex justify-center">
+              <TableCell className="p-4 w-1/4 hidden sm:flex justify-center ">
                 {item.date}
               </TableCell>
               <TableCell className="p-4 w-1/4 flex justify-center">
@@ -74,6 +74,7 @@ export default function HistoryTable(props: IProps) {
                     side="bottom"
                   >
                     <Edit
+                      type={item.type}
                       amount={item.amount}
                       date={item.date}
                       category={item.category}
@@ -94,10 +95,10 @@ export default function HistoryTable(props: IProps) {
           </TableRow>
         )}
         {!props.tableData?.length && props.loading && (
-          <TableRow className="flex w-full mb-4 ">
-            <TableCell className="p-4 w-full text-center text-lg flex items-center justify-center gap-1">
-              <AiOutlineLoading className="text--blue-600 text-2xl animate-spin" />
-              <p>Loading...</p>
+          <TableRow className="flex w-full mb-4 h-full">
+            <TableCell className="p-4 w-full h-full text-center text-lg flex items-center justify-center gap-3">
+              <AiOutlineLoading className="text-blue-600 text-xl animate-spin" />
+              <p className="text-xl">Getting data</p>
             </TableCell>
           </TableRow>
         )}

@@ -26,6 +26,7 @@ import Edit from "../dashboard/Table/Edit";
 import Delete from "../dashboard/Table/Delete";
 import { cn } from "@/lib/utils";
 import { AiOutlineLoading } from "react-icons/ai";
+import EditExpense from "../dashboard/Table/Edit";
 
 const months = [
   "January",
@@ -173,6 +174,7 @@ const OverviewTable = ({
                         side="bottom"
                       >
                         <Edit
+                          type={item.type}
                           amount={item.amount}
                           date={item.date}
                           category={item.category}
