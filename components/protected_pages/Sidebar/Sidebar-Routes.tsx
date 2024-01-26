@@ -34,11 +34,7 @@ export const navRoutes: INavRoutes[] = [
         route: "/user",
         icon: <UserIcon />,
     },
-    {
-        title: "Setting",
-        route: "/setting",
-        icon: <Settings />,
-    },
+
 ];
 
 export default function SidebarRoutes() {

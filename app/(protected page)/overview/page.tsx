@@ -117,15 +117,15 @@ export default async function DashbaordOverview() {
                 expensed on
                 <span className="text-red-500">
                   {" "}
-                  {HighestExpense.category}{" "}
+                  {HighestExpense?.category ? HighestExpense?.category + "😡" : "Nothing"}{" "}
                 </span>
-                😡
+
               </p>
             </div>
             <p
               className={`${fontHeader.className} text-start text-3xl text-red-600`}
             >
-              ${HighestExpense.amount}
+              ${HighestExpense?.amount ? HighestExpense?.amount : 0}
             </p>
           </div>
           <div className="flex w-full pl-2 sm:justify-evenly ">
@@ -137,15 +137,15 @@ export default async function DashbaordOverview() {
                 expensed on
                 <span className="text-green-500">
                   {" "}
-                  {LowestExpense.category}{" "}
+                  {LowestExpense?.category ? LowestExpense?.category + "👍" : "Nothing"}{" "}
                 </span>
-                👍
+
               </p>
             </div>
             <p
               className={`${fontHeader.className} text-3xl text-start text-green-500`}
             >
-              $ {LowestExpense.amount}
+              $ {LowestExpense?.amount ? LowestExpense?.amount : 0}
             </p>
           </div>
           <div className="flex w-full pl-2 sm:justify-evenly">
@@ -153,12 +153,12 @@ export default async function DashbaordOverview() {
               <p className={`${fontHeader.className} text-3xl `}>
                 Highest Income:{" "}
               </p>
-              <p className="text-gray-500">from {HighestExpense.category}.💪</p>
+              <p className="text-gray-500">from {HighestExpense?.category ? HighestExpense?.category + "💪" : "Nothing"}.</p>
             </div>
             <p
               className={`${fontHeader.className} text-3xl text-start text-blue-600`}
             >
-              $ {HighestIncome.amount}
+              $ {HighestIncome?.amount ? HighestIncome?.amount : 0}
             </p>
           </div>
         </div>

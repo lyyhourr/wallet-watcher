@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { fontHeader } from '@/fonts/Fonts'
+import { fontHeader, inter } from '@/fonts/Fonts'
 import React, { useState } from 'react'
 
 export default function DeleteAccount() {
@@ -13,15 +13,15 @@ export default function DeleteAccount() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant={"destructive"}>DeleteAccount</Button>
+                <Button variant={"destructive"}>Delete Account</Button>
             </DialogTrigger>
-            <DialogContent className="flex flex-col gap-3 lg:gap-10">
-                <DialogHeader className={`${fontHeader.className} text-2xl text-red-500`}>
-                    Account Deletion
+            <DialogContent className="flex flex-col gap-3 lg:gap-6">
+                <DialogHeader className={`${inter.className} text-2xl text-red-500`}>
+                    Delete Account
                 </DialogHeader>
                 <div className='flex flex-col gap-2'>
                     <p>Tell Us What Happened</p>
-                    <Textarea placeholder='...' />
+                    <Textarea placeholder='tell us your reason :(' />
                 </div>
                 <div className='flex flex-col gap-2'>
                     <p className='text-gray-400 text-sm'>type {confirmString} to comfirm</p>

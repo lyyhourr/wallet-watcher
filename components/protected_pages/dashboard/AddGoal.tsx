@@ -49,14 +49,24 @@ export default function AddGoal({
         .eq("user_id", userId);
 
       if (existingUser?.length) {
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from("goal")
           .update([{ amount }])
           .eq("user_id", userId);
+        if (error) {
+          toast.error("update failed")
+          return;
+        }
+        toast.success("goal updated")
       } else {
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from("goal")
           .insert([{ user_id: userId, amount }]);
+        if (error) {
+          toast.error("update failed")
+          return;
+        }
+        toast.success("goal updated")
       }
       setOpen(false);
       router.refresh();

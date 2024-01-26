@@ -166,7 +166,7 @@ export default function DashboardTable({ tableData }: ITable) {
                 </TableCell>
                 <TableCell
                   className={cn(
-                    "p-4 w-1/3 sm:w-1/4 flex justify-center",
+                    "p-4 w-1/3 sm:w-1/4 flex justify-center items-center",
                     item.type === "income" ? "text-green-600" : "text-red-600"
                   )}
                 >

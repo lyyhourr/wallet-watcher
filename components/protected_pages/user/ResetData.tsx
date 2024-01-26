@@ -11,6 +11,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { inter } from '@/fonts/Fonts';
 
 
 export default function ResetData() {
@@ -23,17 +24,17 @@ export default function ResetData() {
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Are you sure you want to reset all the datas on your account?</AlertDialogTitle>
+                    <p className={`${inter.className} text-lg`}>Are you sure you want to reset all the data on your account?</p>
                     <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete your
-                        account and remove your data from our servers.
+                        This action cannot be undone. This will permanently delete all the data on your
+                        account and remove all your data from our servers.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
 
                     <Button className="bg-card-red" onClick={handleDelete}>
-                        Delete
+                        Reset
                     </Button>
                 </AlertDialogFooter>
             </AlertDialogContent>
