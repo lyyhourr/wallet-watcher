@@ -83,14 +83,16 @@ export default function Register() {
         >
           {isLoading ? "Logging In" : "Log in"}
         </Button>
+        <div className="flex justify-between w-full">
+
+          <Link href={"/forgetpassword"} className="text-primary-color underline">
+            Forget Password
+          </Link>
+          <Link href={"/register"} className="text-primary-color underline">
+            Register now!
+          </Link>
+        </div>
       </form>
-      <div className="flex gap-2 justify-center items-center">
-        <p>New Here?</p>
-        <Link href={"/register"} className="text-primary-color underline">
-          {" "}
-          Register now!{" "}
-        </Link>
-      </div>
       {message?.length && (
         <p className="px-3 py-5 w-full text-center bg-red-100 underline text-red-600">
           {message}

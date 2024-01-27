@@ -31,7 +31,7 @@ export default function ChangeGmail() {
       return;
     }
     if (data) {
-      toast.success("check your both gmails")
+      toast.success("check both of your gmails to confirm change")
       setOpen(false)
     }
   }

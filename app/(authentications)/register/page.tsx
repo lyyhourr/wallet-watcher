@@ -7,12 +7,11 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import AuthLayout from "@/components/auth/AuthLayout";
-interface IMessage {
+export interface IMessage {
   msg: string | null;
   color: "red" | "green" | string | null;
 }
 const initialData = {
-  username: "",
   email: "",
   password: "",
   cfpassword: "",
@@ -35,20 +34,14 @@ export default function Register() {
 
   const validation = () => {
     if (
-      !formData.username.length ||
       !formData.email.length ||
       !formData.password.length ||
       !formData.cfpassword.length
     ) {
       setMessage({ color: "red", msg: "All fields must be completed!" });
       return false;
-    } else if (formData.username.length < 3) {
-      setMessage({
-        color: "red",
-        msg: "username must be more than 3 characters",
-      });
-      return false;
-    } else if (formData.password.length < 5) {
+    }
+    else if (formData.password.length < 5) {
       setMessage({
         color: "red",
         msg: "Password must be more than 5 characters",
@@ -111,13 +104,6 @@ export default function Register() {
         onSubmit={handleRegister}
         method="post"
       >
-        <Input
-          placeholder="Username"
-          className="p-7 text-lg"
-          name="username"
-          onChange={handleChange}
-          value={formData.username}
-        />
         <Input
           placeholder="Email.."
           className="p-7 text-lg"
