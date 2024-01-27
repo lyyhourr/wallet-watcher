@@ -10,11 +10,34 @@ import {
 } from "@/components/ui/dialog";
 import { inter } from "@/fonts/Fonts";
 import { Input } from "@/components/ui/input";
+import toast from "react-hot-toast";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cn } from "@/lib/utils";
 
 export default function ChangeGmail() {
-  const handleChange = () => {};
+  const [gmail, setGmail] = useState("")
+  const [open, setOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const handleSubmit = async (e: any) => {
+    const supabaseAdmin = createClientComponentClient()
+
+    e.preventDefault();
+    setIsLoading(true)
+    const { data, error } = await supabaseAdmin.auth.updateUser({ email: gmail })
+
+    setIsLoading(false)
+    if (error) {
+      toast.error(error.message)
+      return;
+    }
+    if (data) {
+      toast.success("check your both gmails")
+      setOpen(false)
+    }
+  }
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant={"destructive"}>Change Gmail</Button>
       </DialogTrigger>
@@ -22,15 +45,14 @@ export default function ChangeGmail() {
         <DialogHeader className={`${inter.className} text-2xl `}>
           Change Email
         </DialogHeader>
-        <form action="" className="flex flex-col gap-3" method="post">
-          {/* <Input placeholder="old password..." /> */}
-          <Input placeholder="new gmail..." />
+        <form action="" className="flex flex-col gap-3" method="post" onSubmit={handleSubmit}>
+          <Input placeholder="new gmail..." type="email" onChange={(e) => setGmail(e.target.value)} />
           <div className="flex gap-2 items-center ">
-            <Button variant={"destructive"} className="w-full">
-              Update Email
+            <Button variant={"destructive"} className={cn("w-full", isLoading && "animate-pulse")} disabled={isLoading}>
+              {isLoading ? "Updating.." : "Update Gmail"}
             </Button>
             <DialogClose asChild>
-              <Button variant={"secondary"} className="w-full">
+              <Button variant={"secondary"} type="button" className="w-full">
                 Cancel
               </Button>
             </DialogClose>

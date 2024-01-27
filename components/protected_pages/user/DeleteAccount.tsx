@@ -35,7 +35,7 @@ export default function DeleteAccount({ userId }: { userId: string }) {
     if (signout.error) {
       toast.error(signout.error.message);
     }
-    router.push("/login");
+    router.push("/");
   };
   return (
     <Dialog>

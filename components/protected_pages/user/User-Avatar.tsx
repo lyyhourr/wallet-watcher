@@ -27,29 +27,41 @@ export default function UserAvatar({ userId }: { userId: string }) {
     if (!file) {
       return;
     }
-    const isExistingImage = media.length > 0;
 
-    if (!isExistingImage) {
-      const { data, error } = await supabase.storage
-        .from("user_pf")
-        .upload(userId + "/" + uuidv4(), file);
-      if (error) {
-        toast.error(error.message);
-        return;
-      }
-      toast.success("profile uploaded");
-      getMedia();
-    } else {
-      const { data, error } = await supabase.storage
-        .from("user_pf")
-        .update(`${userId}/${media[0].name}`, file);
-      if (error) {
-        toast.error(error.message);
-        return;
-      }
-      toast.success("profile updated");
-      getMedia();
+    const { data, error } = await supabase.storage
+      .from("user_pf")
+      .upload(userId + "/" + uuidv4(), file);
+    if (error) {
+      toast.error(error.message);
+      return;
     }
+    toast.success("profile uploaded");
+    getMedia();
+
+
+    // const isExistingImage = media.length > 0;
+
+    // if (!isExistingImage) {
+    //   const { data, error } = await supabase.storage
+    //     .from("user_pf")
+    //     .upload(userId + "/" + uuidv4(), file);
+    //   if (error) {
+    //     toast.error(error.message);
+    //     return;
+    //   }
+    //   toast.success("profile uploaded");
+    //   getMedia();
+    // } else {
+    //   const { data, error } = await supabase.storage
+    //     .from("user_pf")
+    //     .update(`${userId}/${media[0].name}`, file);
+    //   if (error) {
+    //     toast.error(error.message);
+    //     return;
+    //   }
+    //   toast.success("profile updated");
+    //   getMedia();
+    // }
   };
 
   const handleDeleteImage = async () => {
@@ -93,17 +105,22 @@ export default function UserAvatar({ userId }: { userId: string }) {
         className="w-[100px] h-[100px] rounded-full bg-cover"
       />
       <div className="flex items-center gap-1">
-        <Button className="relative" variant={"default"}>
-          <label htmlFor="file-input" className="cursor-pointer">
-            {!media[0] ? "Upload" : "Update"} Profile
-          </label>
-          <input
-            id="file-input"
-            type="file"
-            className="hidden"
-            onChange={(e) => uploadImage(e)}
-          />
-        </Button>
+        {
+          !media[0] && (
+            <Button className="relative" variant={"default"}>
+              <label htmlFor="file-input" className="cursor-pointer">
+                {/* {!media[0] ? "Upload" : "Update"} Profile */}
+                Upload
+              </label>
+              <input
+                id="file-input"
+                type="file"
+                className="hidden"
+                onChange={(e) => uploadImage(e)}
+              />
+            </Button>
+          )
+        }
         {media[0] && (
           <AlertDialog>
             <AlertDialogTrigger asChild>
