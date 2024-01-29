@@ -5,19 +5,11 @@ import React from 'react'
 
 export default function Contact() {
     return (
-        <main className='lg:pt-8 flex lg:h-screen  '>
-            <section className="hidden  w-4/5 lg:flex justify-center items-center">
-                <Image
-                    src={"/images/chatbot.png"}
-                    width={10000}
-                    height={1000}
-                    alt="image"
-                    className="w-[600px]"
-                />
-            </section>
-            <section className=' w-full flex p-5 items-center'>
+        <main className='lg:pt-8 flex lg:h-screen flex-col lg:flex-row '>
+
+            <section className=' w-full flex p-5 items-'>
                 <div className="flex flex-col gap-5 lg:gap-7 md:gap-10 xl:gap-9 py-5 text-lg">
-                    <h1 className={`${fontHero.className} text-5xl sm:text-7xl`}>Connect with Routine-Wallet</h1>
+                    <h1 className={`${fontHero.className} text-5xl sm:text-7xl`}>Let's connect</h1>
                     <h2 className={`${fontHero.className} text-3xl sm:text-5xl`}>We're Here to Assist You</h2>
                     <h2 className={`${inter.className}  `}>Whether you have questions, feedback, or simply want to reach out, we're ready to connect. Explore the various ways you can get in touch with us below. Feel free to adjust the wording based on your brand's voice and the specific services or products your company offers.  </h2>
                     <div className='grid sm:grid-cols-2 lg:grid-cols-1 gap-5'>
@@ -44,6 +36,15 @@ export default function Contact() {
                     </div>
 
                 </div>
+            </section>
+            <section className="w-full  lg:w-4/5 flex justify-center items-center lg:items-start">
+                <Image
+                    src={"/images/chatbot.png"}
+                    width={10000}
+                    height={1000}
+                    alt="image"
+                    className="w-[600px] "
+                />
             </section>
 
         </main >

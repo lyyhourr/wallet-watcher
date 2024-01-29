@@ -5,9 +5,9 @@ import React from 'react'
 
 export default function AboutPage() {
     return (
-        <main className='lg:pt-8 flex lg:h-screen'>
-            <section className=' w-full flex p-5 '>
-                <div className="flex flex-col gap-3 sm:gap-5 lg:gap-7 md:gap-10 xl:gap-16 py-5 sm:text-lg">
+        <main className='lg:pt-8 flex lg:h-screen flex-col lg:flex-row p-2'>
+            <section className=' w-full flex lg:p-5 p-2'>
+                <div className="flex flex-col gap-3 sm:gap-5 lg:gap-7 md:gap-10 xl:gap-16 py-5 sm:text-lg ">
                     <h1 className={`${fontHero.className} text-7xl  sm:text-9xl`}>About Me</h1>
                     <h2 className={`${fontHero.className} text-3xl sm:text-5xl`}>Bringing Simplicity to Student Finances</h2>
                     <div className={`${inter.className} flex flex-col gap-3 md:w-[90%] xl:w-[70%]  `}>
@@ -20,7 +20,7 @@ export default function AboutPage() {
                     </div>
                 </div>
             </section>
-            <section className="hidden  w-1/2 lg:flex justify-start items-center">
+            <section className=" w-full lg:w-1/2 flex justify-start items-start md:justify-center ">
                 <Image
                     src={"/images/coding.png"}
                     width={10000}
