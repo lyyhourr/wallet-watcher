@@ -39,7 +39,7 @@ export default function CategorySelector({
 
   useEffect(() => {
     setFormData({ ...formData, category: value });
-  }, [value, formData, setFormData]);
+  }, [value]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

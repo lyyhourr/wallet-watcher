@@ -76,6 +76,7 @@ export default function AddIncome() {
       <DialogTrigger className="bg-green-500 px-2 py-1 sm:px-4 text-lg sm:py-2 text-white rounded-md">
         Add Income
       </DialogTrigger>
+
       <DialogContent className="flex flex-col gap-3 lg:gap-10">
         <DialogHeader className={`${fontHeader.className} text-2xl `}>
           Add Income
@@ -94,6 +95,7 @@ export default function AddIncome() {
               placeholder="Amount"
               className="col-span-3"
               name="amount"
+              defaultValue={""}
               onChange={handleChange}
             />
           </div>
@@ -114,6 +116,7 @@ export default function AddIncome() {
             </label>
             <Input
               placeholder="date"
+              defaultValue={""}
               type="date"
               className="col-span-3"
               name="date"
