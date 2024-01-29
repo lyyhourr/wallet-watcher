@@ -66,8 +66,7 @@ export default function Register() {
       email: formData.email,
       password: formData.password,
       options: {
-        emailRedirectTo: `https://walletwatcher-alpha.vercel.app/auth/callback`,
-        // emailRedirectTo: `${location.origin}/auth/callback`,
+        emailRedirectTo: `${location.origin}/auth/callback`,
       },
     });
     const {

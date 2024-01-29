@@ -33,8 +33,7 @@ export default function Register() {
 
     setIsLoading(true);
     const res = await supabase.auth.resetPasswordForEmail(formData.email, {
-      redirectTo: `https://walletwatcher-alpha.vercel.app/forgetpassword/resetpassword`,
-      //   redirectTo: `${location.origin}/forgetpassword/resetpassword`,
+      redirectTo: `${location.origin}/forgetpassword/resetpassword`,
     });
 
     if (!res.error) {
