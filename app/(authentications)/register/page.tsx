@@ -66,7 +66,7 @@ export default function Register() {
       email: formData.email,
       password: formData.password,
       options: {
-        emailRedirectTo: `https://wallets-watcher.netlify.app/auth/callback`,
+        emailRedirectTo: `https://walletwatcher-alpha.vercel.app/auth/callback`,
         // emailRedirectTo: `${location.origin}/auth/callback`,
       },
     });
