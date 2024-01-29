@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 export default function UserAvatar({ userId }: { userId: string }) {
   const supabase = createClientComponentClient();
   const [media, setMedia] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const uploadImage = async (e: any) => {
     const file = e.target.files[0];
@@ -58,7 +58,7 @@ export default function UserAvatar({ userId }: { userId: string }) {
   });
 
   async function getMedia() {
-    setIsLoading(true)
+    setIsLoading(true);
     //  fetch all data from userId as folder name
     const { data, error } = await supabase.storage
       .from("user_pf")
@@ -69,8 +69,8 @@ export default function UserAvatar({ userId }: { userId: string }) {
     } else {
       console.log(71, error);
     }
-    console.log("get avatar function rendered")
-    setIsLoading(false)
+    console.log("get avatar function rendered");
+    setIsLoading(false);
   }
 
   const imageUrl = `https://quxwwbszmhifyfrqslyf.supabase.co/storage/v1/object/public/user_pf/${userId}/${media[0]?.name}`;
@@ -81,24 +81,25 @@ export default function UserAvatar({ userId }: { userId: string }) {
         width={1000}
         height={1000}
         alt="user avatar"
-        className={cn("w-[100px] h-[100px] rounded-full bg-cover", isLoading && "animate-pulse")}
+        className={cn(
+          "w-[100px] h-[100px] rounded-full bg-cover",
+          isLoading && "animate-pulse"
+        )}
       />
       <div className="flex items-center gap-1">
-        {
-          !media[0] && (
-            <Button className="relative" variant={"default"}>
-              <label htmlFor="file-input" className="cursor-pointer">
-                Upload
-              </label>
-              <input
-                id="file-input"
-                type="file"
-                className="hidden"
-                onChange={(e) => uploadImage(e)}
-              />
-            </Button>
-          )
-        }
+        {!media[0] && (
+          <Button className="relative" variant={"default"}>
+            <label htmlFor="file-input" className="cursor-pointer">
+              Upload
+            </label>
+            <input
+              id="file-input"
+              type="file"
+              className="hidden"
+              onChange={(e) => uploadImage(e)}
+            />
+          </Button>
+        )}
         {media[0] && (
           <AlertDialog>
             <AlertDialogTrigger asChild>
