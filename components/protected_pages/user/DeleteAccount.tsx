@@ -33,13 +33,12 @@ export default function DeleteAccount({ userId }: { userId: string }) {
       return;
     }
     toast.success("account deleted");
-    // const supaBase = createClientComponentClient();
-    // const signout = await supaBase.auth.signOut();
-    // if (signout.error) {
-    //   toast.error(signout.error.message);
-    // }
-
-    router.push("/");
+    const supaBase = createClientComponentClient();
+    const signout = await supaBase.auth.signOut();
+    if (signout.error) {
+      toast.error(signout.error.message);
+    }
+    router.refresh();
   };
 
   return (
