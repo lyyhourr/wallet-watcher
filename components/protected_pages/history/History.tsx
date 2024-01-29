@@ -27,7 +27,7 @@ export default function History() {
 
         };
         FetchData();
-    }, []);
+    }, [supabase]);
 
     return (
         <div className="bg-white rounded-lg h-full flex gap-2">

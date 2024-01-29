@@ -45,7 +45,7 @@ export default function Register() {
         }
         getMail()
 
-    }, [])
+    },)
     const validation = () => {
         const { password, cfpassword } = formData
         if (password.length < 5 || cfpassword.length < 5) {

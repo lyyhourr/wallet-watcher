@@ -111,7 +111,7 @@ const OverviewTable = ({
       setLoading(false);
     };
     FetchData();
-  }, [onSlide, tableData]);
+  }, [onSlide, tableData, currentMonthIndex, supabase, userId]);
 
   return (
     <main className="flex items-center justify-center flex-col p-2 gap-4">

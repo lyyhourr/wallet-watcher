@@ -9,9 +9,9 @@ export default function Contact() {
 
             <section className=' w-full flex p-5 items-'>
                 <div className="flex flex-col gap-5 lg:gap-7 md:gap-10 xl:gap-9 py-5 text-lg">
-                    <h1 className={`${fontHero.className} text-5xl sm:text-7xl`}>Let's connect</h1>
-                    <h2 className={`${fontHero.className} text-3xl sm:text-5xl`}>We're Here to Assist You</h2>
-                    <h2 className={`${inter.className}  `}>Whether you have questions, feedback, or simply want to reach out, we're ready to connect. Explore the various ways you can get in touch with us below. Feel free to adjust the wording based on your brand's voice and the specific services or products your company offers.  </h2>
+                    <h1 className={`${fontHero.className} text-5xl sm:text-7xl`}>Lets connect</h1>
+                    <h2 className={`${fontHero.className} text-3xl sm:text-5xl`}>We are Here to Assist You</h2>
+                    <h2 className={`${inter.className}  `}>Whether you have questions, feedback, or simply want to reach out, we are ready to connect. Explore the various ways you can get in touch with us below. Feel free to adjust the wording based on your brand voice and the specific services or products your company offers.  </h2>
                     <div className='grid sm:grid-cols-2 lg:grid-cols-1 gap-5'>
                         <div className='flex items-center'>
                             <h2 className={`${inter.className} w-[100px] `}> Email:</h2>

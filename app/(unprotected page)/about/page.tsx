@@ -11,11 +11,11 @@ export default function AboutPage() {
                     <h1 className={`${fontHero.className} text-7xl  sm:text-9xl`}>About Me</h1>
                     <h2 className={`${fontHero.className} text-3xl sm:text-5xl`}>Bringing Simplicity to Student Finances</h2>
                     <div className={`${inter.className} flex flex-col gap-3 md:w-[90%] xl:w-[70%]  `}>
-                        <p>Hi, I'm lyhua, a third-year student and the guy that built this site. I built this to simplify student life by offering an easy way to manage finances. Juggling studies and expenses inspired me to create a tool that's straightforward that fits the unique needs of students like me.</p>
+                        <p>Hi, Im lyhua, a third-year student and the guy that built this site. I built this to simplify student life by offering an easy way to manage finances. Juggling studies and expenses inspired me to create a tool thats straightforward that fits the unique needs of students like me.</p>
                         <p> This site is my solution to the challenges of budgeting, planning for the future, and making financial management easy for students.</p>
                     </div>
                     <div className='flex items-center gap-2 flex-col sm:flex-row text-lg'>
-                        <p>I'd love to hear your thoughts! Let's </p>
+                        <p>Id love to hear your thoughts! Lets </p>
                         <Link href={"/contact"} className='underline text-green-500'>Get in touch</Link>
                     </div>
                 </div>

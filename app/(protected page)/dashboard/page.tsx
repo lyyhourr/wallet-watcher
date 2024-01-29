@@ -51,7 +51,7 @@ const FetchTableData = async () => {
     .eq("user_id", user?.id);
   return { user, data, FetchGoal, username, currentMonth };
 };
-export const SumTotal = async (type: "income" | "expense", data: any) => {
+export const SumTotal = async (type: any, data: any) => {
   const total = await data
     ?.filter((item: any) => item.type === type)
     .map((item: any) => Number(item.amount))

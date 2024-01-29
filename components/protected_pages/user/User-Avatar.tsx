@@ -80,7 +80,7 @@ export default function UserAvatar({ userId }: { userId: string }) {
 
   useEffect(() => {
     getMedia();
-  }, []);
+  });
 
   async function getMedia() {
     setIsLoading(true)

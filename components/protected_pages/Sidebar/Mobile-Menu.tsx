@@ -19,7 +19,7 @@ export default function MobileMenu() {
             setEmail(user?.email);
         }
         getUser()
-    }, [])
+    }, [supabase.auth])
     return (
         <Sheet>
             <SheetTrigger>
