@@ -81,11 +81,7 @@ export default function Register() {
                 >
                     {isLoading ? "Sending" : "Send"}
                 </Button>
-                <div className="flex justify-center ">
-                    <Link href={"/register"} className="text-primary-color underline">
-                        Register now!
-                    </Link>
-                </div>
+
             </form>
             <p
                 className={cn(
