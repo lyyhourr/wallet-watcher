@@ -1,7 +1,13 @@
 "use client";
 import { fontHeader, inter } from "@/fonts/Fonts";
 import React, { useEffect, useState } from "react";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
@@ -11,7 +17,6 @@ import { Button } from "@/components/ui/button";
 import { Check, ChevronsUpDown, Divide } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { queryHandler } from "../dashboard/Table/Dashboard-Table";
 import { expenseCategories, incomeCategories } from "../Category-Icons";
 const Category = [
   "Housing/Renting",
@@ -42,16 +47,34 @@ const Category = [
   "Business",
   "other",
 ];
+
+const formatDate = (date: any) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+const getFirstAndLastDayOfWeek = () => {
+  const currentDate = new Date();
+  const currentDay = currentDate.getDay();
+  const firstDayOfWeek = new Date(currentDate);
+  const lastDayOfWeek = new Date(currentDate);
+
+  firstDayOfWeek.setDate(currentDate.getDate() - currentDay);
+  lastDayOfWeek.setDate(currentDate.getDate() + (6 - currentDay));
+  return { firstDayOfWeek, lastDayOfWeek };
+};
+
 export default function HistoryFilter({
   setTableData,
   setOpenDrawer,
   userId,
-  tabelData
+  tabelData,
 }: any) {
-
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState("");
   const supabase = createClientComponentClient();
+  const { firstDayOfWeek, lastDayOfWeek } = getFirstAndLastDayOfWeek();
   const [filters, setFilters] = useState([
     {
       type: "Date",
@@ -84,28 +107,45 @@ export default function HistoryFilter({
       )
     );
   };
+  const date = new Date();
+  const queryHandler = (props: { query: "gte" | "lte" }) => {
+    const tab = filters[0].selected.toLowerCase();
+    if (props.query === "gte") {
+      if (tab === "today")
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+      if (tab === "month")
+        return `${date.getFullYear()}-${date.getMonth() + 1}-1`;
+      if (tab === "week") return `${formatDate(firstDayOfWeek)}`;
+      if (tab === "year") return `${date.getFullYear()}-1-1`;
+    }
+    if (props.query === "lte") {
+      if (tab === "today")
+        return `2024-${date.getMonth() + 1}-${date.getDate()}`;
+      if (tab === "month")
+        return `${date.getFullYear()}-${date.getMonth() + 1}-30`;
+      if (tab === "week") return formatDate(lastDayOfWeek);
+      if (tab === "year") return `${date.getFullYear()}-12-30`;
+    }
+  };
 
   const HandleFilter = async () => {
-    var sortBy
-    var sortOn
+    var sortBy;
+    var sortOn;
     if (filters[1].selected.includes("Highest")) {
-      sortBy = "amount"
-      sortOn = false
-    }
-    else if (filters[1].selected.includes("Lowest")) {
-      sortBy = "amount"
-      sortOn = true
-    }
-    else if (filters[1].selected.includes("Oldest")) {
-      sortBy = "date"
-      sortOn = true
-    }
-    else {
-      sortBy = "date"
-      sortOn = false
+      sortBy = "amount";
+      sortOn = false;
+    } else if (filters[1].selected.includes("Lowest")) {
+      sortBy = "amount";
+      sortOn = true;
+    } else if (filters[1].selected.includes("Oldest")) {
+      sortBy = "date";
+      sortOn = true;
+    } else {
+      sortBy = "date";
+      sortOn = false;
     }
 
-    const filterBy = filters[2].selected.toLowerCase()
+    const filterBy = filters[2].selected.toLowerCase();
     if (filters[0].selected.length > 2) {
       const { data } = await supabase
         .from("transactions")
@@ -114,26 +154,31 @@ export default function HistoryFilter({
         .like("type", `%${filterBy}%`)
         .like("category", `%${category}%`)
         .order(sortBy, { ascending: sortOn })
-        .gte("date", queryHandler({ query: "gte", tab: filters[0].selected.toLowerCase() }) + "T00:00:00.000Z")
-        .lte("date", queryHandler({ query: "lte", tab: filters[0].selected.toLowerCase() }) + "T00:00:00.000Z")
-      setTableData(data)
-
+        .gte(
+          "date",
+          queryHandler({
+            query: "gte",
+          }) + "T00:00:00.000Z"
+        )
+        .lte(
+          "date",
+          queryHandler({
+            query: "lte",
+          }) + "T00:00:00.000Z"
+        );
+      setTableData(data);
     } else {
-
-
       const { data } = await supabase
         .from("transactions")
         .select("*")
         .eq("user_id", userId)
         .like("type", `%${filterBy}%`)
         .like("category", `%${category}%`)
-        .order(sortBy, { ascending: sortOn })
+        .order(sortBy, { ascending: sortOn });
 
-      setTableData(data)
+      setTableData(data);
     }
     setOpenDrawer(false);
-
-
   };
 
   const hanldleReset = async () => {
@@ -146,18 +191,20 @@ export default function HistoryFilter({
     const { data } = await supabase
       .from("transactions")
       .select("*")
-      .eq("user_id", userId)
-    setTableData(data)
+      .eq("user_id", userId);
+    setTableData(data);
     setOpenDrawer(false);
   };
 
-
-  const categoryFitler = filters[2].selected.length > 1 ? filters[2].selected === "Income" ? incomeCategories : expenseCategories : Category
+  const categoryFitler =
+    filters[2].selected.length > 1
+      ? filters[2].selected === "Income"
+        ? incomeCategories
+        : expenseCategories
+      : Category;
   return (
     <div className="flex flex-col gap-5 h-full">
-      <h1 className={`${inter.className}  text-center text-3xl `}>
-        Filter
-      </h1>
+      <h1 className={`${inter.className}  text-center text-3xl `}>Filter</h1>
       <div className=" flex flex-col gap-5">
         {filters.map((item) => (
           <div
@@ -171,7 +218,10 @@ export default function HistoryFilter({
                   key={fil}
                   className={cn(
                     "w-[80px] py-1 rounded-md text-gray-500 bg-gray-200",
-                    filters.map(item => item.selected === fil && "bg-card-green text-white")
+                    filters.map(
+                      (item) =>
+                        item.selected === fil && "bg-card-green text-white"
+                    )
                   )}
                   onClick={() => {
                     handleSelectedCategory(item.type, fil);
@@ -228,19 +278,21 @@ export default function HistoryFilter({
           </Popover>
         </div>
       </div>
-      {
-        filters[0].selected.length || filters[1].selected.length || filters[2].selected.length ? (
+      {filters[0].selected.length ||
+      filters[1].selected.length ||
+      filters[2].selected.length ? (
+        <div className="flex items-center gap-2">
+          <p>Filtering : </p>
           <div className="flex items-center gap-2">
-            <p>Filtering : </p>
-            <div className="flex items-center gap-2">
-              {filters.map((item, i) => <span key={i}>{item.selected}</span>)}
-            </div>
+            {filters.map((item, i) => (
+              <span key={i}>{item.selected}</span>
+            ))}
           </div>
-        ) : (<></>)
-      }
-      {
-        category.length ? <p>Category : {category}</p> : <></>
-      }
+        </div>
+      ) : (
+        <></>
+      )}
+      {category.length ? <p>Category : {category}</p> : <></>}
 
       <div className="flex items-end justify-center gap-2 mt-auto">
         <button

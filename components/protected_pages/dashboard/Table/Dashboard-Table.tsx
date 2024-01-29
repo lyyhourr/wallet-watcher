@@ -22,10 +22,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Delete from "./Delete";
 import { IconHandler } from "../../Category-Icons";
-import EditExpense from "./Edit";
 import Edit from "./Edit";
 
 const tabs = ["today", "week", "month", "year"];
+const formatDate = (date: any) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 const getFirstAndLastDayOfWeek = () => {
   const currentDate = new Date();
   const currentDay = currentDate.getDay();
@@ -34,37 +39,29 @@ const getFirstAndLastDayOfWeek = () => {
 
   firstDayOfWeek.setDate(currentDate.getDate() - currentDay);
   lastDayOfWeek.setDate(currentDate.getDate() + (6 - currentDay));
-  const startDayOfWeek = firstDayOfWeek.toLocaleString(undefined, {
-    day: "numeric",
-  });
-  const endDayOfWeek = lastDayOfWeek.toLocaleString(undefined, {
-    day: "numeric",
-  });
-
-  return { startDayOfWeek, endDayOfWeek };
+  return { firstDayOfWeek, lastDayOfWeek };
 };
 
 interface ITable {
   tableData: IFormData[];
 }
-const { startDayOfWeek, endDayOfWeek } = getFirstAndLastDayOfWeek();
 
 export const queryHandler = (props: { query: "gte" | "lte"; tab: string }) => {
+  const { firstDayOfWeek, lastDayOfWeek } = getFirstAndLastDayOfWeek();
   const date = new Date();
   if (props.query === "gte") {
     if (props.tab === "today")
       return `2024-${date.getMonth() + 1}-${date.getDate()}`;
-    if (props.tab === "month") return `2024-${date.getMonth() + 1}-1`;
-    if (props.tab === "week")
-      return `2024-${date.getMonth() + 1}-${startDayOfWeek}`;
+    if (props.tab === "month")
+      return `${date.getFullYear()}-${date.getMonth() + 1}-1`;
+    if (props.tab === "week") return formatDate(firstDayOfWeek);
     if (props.tab === "year") return `${date.getFullYear()}-1-1`;
   }
   if (props.query === "lte") {
     if (props.tab === "today")
       return `2024-${date.getMonth() + 1}-${date.getDate()}`;
     if (props.tab === "month") return `2024-${date.getMonth() + 1}-30`;
-    if (props.tab === "week")
-      return `2024-${date.getMonth() + 1}-${endDayOfWeek}`;
+    if (props.tab === "week") return formatDate(lastDayOfWeek);
     if (props.tab === "year") return `${date.getFullYear()}-12-30`;
   }
 };
@@ -74,23 +71,24 @@ export default function DashboardTable({ tableData }: ITable) {
   const [loading, setLoading] = useState(false);
 
   const supabase = createClientComponentClient();
-  const { startDayOfWeek, endDayOfWeek } = getFirstAndLastDayOfWeek();
+  const { firstDayOfWeek, lastDayOfWeek } = getFirstAndLastDayOfWeek();
 
+  const date = new Date();
   const queryHandler = (props: { query: "gte" | "lte" }) => {
-    const date = new Date();
     if (props.query === "gte") {
       if (tab === "today")
-        return `2024-${date.getMonth() + 1}-${date.getDate()}`;
-      if (tab === "month") return `2024-${date.getMonth() + 1}-1`;
-      if (tab === "week")
-        return `2024-${date.getMonth() + 1}-${startDayOfWeek}`;
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+      if (tab === "month")
+        return `${date.getFullYear()}-${date.getMonth() + 1}-1`;
+      if (tab === "week") return `${formatDate(firstDayOfWeek)}`;
       if (tab === "year") return `${date.getFullYear()}-1-1`;
     }
     if (props.query === "lte") {
       if (tab === "today")
         return `2024-${date.getMonth() + 1}-${date.getDate()}`;
-      if (tab === "month") return `2024-${date.getMonth() + 1}-30`;
-      if (tab === "week") return `2024-${date.getMonth() + 1}-${endDayOfWeek}`;
+      if (tab === "month")
+        return `${date.getFullYear()}-${date.getMonth() + 1}-30`;
+      if (tab === "week") return formatDate(lastDayOfWeek);
       if (tab === "year") return `${date.getFullYear()}-12-30`;
     }
   };
@@ -117,6 +115,7 @@ export default function DashboardTable({ tableData }: ITable) {
       }
       setLoading(false);
     };
+    console.log("effect rendered");
     Fetch();
   }, [tableData, tab]);
 

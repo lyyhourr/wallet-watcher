@@ -30,7 +30,7 @@ export default function Register() {
 
   const handleLogIn = async (e: any) => {
     e.preventDefault();
-
+    setMessage(null);
     setIsLoading(true);
     toast.loading("Logging In! Please Wait", { duration: 1000 });
     const res = await supabase.auth.signInWithPassword({
@@ -84,8 +84,10 @@ export default function Register() {
           {isLoading ? "Logging In" : "Log in"}
         </Button>
         <div className="flex justify-between w-full">
-
-          <Link href={"/forgetpassword"} className="text-primary-color underline">
+          <Link
+            href={"/forgetpassword"}
+            className="text-primary-color underline"
+          >
             Forget Password
           </Link>
           <Link href={"/register"} className="text-primary-color underline">
