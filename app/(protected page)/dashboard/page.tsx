@@ -51,13 +51,13 @@ const FetchTableData = async () => {
     .eq("user_id", user?.id);
   return { user, data, FetchGoal, username, currentMonth };
 };
-export const SumTotal = async (type: any, data: any) => {
-  const total = await data
-    ?.filter((item: any) => item.type === type)
-    .map((item: any) => Number(item.amount))
-    ?.reduce((a: number, b: number) => a + b, 0);
-  return total;
-};
+// export const SumTotal = async ({ type, data }: { type: string, data: any }) => {
+//   const total = await data
+//     ?.filter((item: any) => item.type === type)
+//     .map((item: any) => Number(item.amount))
+//     ?.reduce((a: number, b: number) => a + b, 0);
+//   return total;
+// };
 
 export default async function Dashboard() {
   const { FetchGoal, data, user, username, currentMonth } =
@@ -65,8 +65,15 @@ export default async function Dashboard() {
   const goalAmount = FetchGoal.data
     ?.map((item) => Number(item.amount))
     .reduce((a: number, b: number) => a + b, 0);
-  const income = await SumTotal("income", data);
-  const expense = await SumTotal("expense", data);
+  // const income = await SumTotal({ type: "income", data: data });
+  const income = await data
+    ?.filter((item: any) => item.type === "income")
+    .map((item: any) => Number(item.amount))
+    ?.reduce((a: number, b: number) => a + b, 0);
+  const expense = await data
+    ?.filter((item: any) => item.type === "expense")
+    .map((item: any) => Number(item.amount))
+    ?.reduce((a: number, b: number) => a + b, 0);
   const expenseAfterFetch = expense ? expense : 0;
   const balance = income ? income - expenseAfterFetch : 0;
   return (
