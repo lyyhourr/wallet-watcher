@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { fontHeader, inter } from "@/fonts/Fonts";
-import { supabaseAdmin } from "@/lib/utils";
+import { cn, supabaseAdmin } from "@/lib/utils";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { createClient } from "@supabase/supabase-js";
 import { redirect, useRouter } from "next/navigation";
@@ -22,21 +22,26 @@ export default function DeleteAccount({ userId }: { userId: string }) {
   const confirmString = "delete-my-account";
   const isConfirmed = confirmInput === confirmString;
   const router = useRouter();
+  const [loading, isLoading] = useState(false);
 
   const handleDeleleAccount = async () => {
+    isLoading(true);
     const { data, error } = await supabaseAdmin.auth.admin.deleteUser(userId);
+    isLoading(false);
     if (error) {
       toast.error(error.message);
       return;
     }
     toast.success("account deleted");
-    const supaBase = createClientComponentClient();
-    const signout = await supaBase.auth.signOut();
-    if (signout.error) {
-      toast.error(signout.error.message);
-    }
+    // const supaBase = createClientComponentClient();
+    // const signout = await supaBase.auth.signOut();
+    // if (signout.error) {
+    //   toast.error(signout.error.message);
+    // }
+
     router.push("/");
   };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -62,11 +67,11 @@ export default function DeleteAccount({ userId }: { userId: string }) {
         <div className="flex gap-2 items-center ">
           <Button
             variant={"destructive"}
-            disabled={!isConfirmed}
-            className="w-full"
+            disabled={!isConfirmed || loading}
+            className={cn("w-full", loading && "animate-pulse")}
             onClick={handleDeleleAccount}
           >
-            Delete Account
+            {loading ? "Deleting" : "Delete Account"}
           </Button>
           <DialogClose asChild>
             <Button className="w-full" variant={"secondary"}>
