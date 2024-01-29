@@ -38,31 +38,6 @@ export default function UserAvatar({ userId }: { userId: string }) {
     }
     toast.success("profile uploaded");
     getMedia();
-
-
-    // const isExistingImage = media.length > 0;
-
-    // if (!isExistingImage) {
-    //   const { data, error } = await supabase.storage
-    //     .from("user_pf")
-    //     .upload(userId + "/" + uuidv4(), file);
-    //   if (error) {
-    //     toast.error(error.message);
-    //     return;
-    //   }
-    //   toast.success("profile uploaded");
-    //   getMedia();
-    // } else {
-    //   const { data, error } = await supabase.storage
-    //     .from("user_pf")
-    //     .update(`${userId}/${media[0].name}`, file);
-    //   if (error) {
-    //     toast.error(error.message);
-    //     return;
-    //   }
-    //   toast.success("profile updated");
-    //   getMedia();
-    // }
   };
 
   const handleDeleteImage = async () => {
@@ -94,6 +69,7 @@ export default function UserAvatar({ userId }: { userId: string }) {
     } else {
       console.log(71, error);
     }
+    console.log("get avatar function rendered")
     setIsLoading(false)
   }
 

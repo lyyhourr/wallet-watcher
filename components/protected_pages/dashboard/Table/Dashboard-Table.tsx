@@ -118,7 +118,7 @@ export default function DashboardTable({ tableData }: ITable) {
       setLoading(false);
     };
     Fetch();
-  }, [tableData, tab, queryHandler, supabase]);
+  }, [tableData, tab]);
 
   return (
     <div className="flex flex-col gap-3">
