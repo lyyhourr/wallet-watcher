@@ -16,7 +16,7 @@ export default async function Navbar() {
   } = await supabase.auth.getUser();
 
   return (
-    <nav className="flex items-center justify-between px-5 bg-main  lg:px-20  py-4 border-b border-gray-400 fixed top-0 w-full">
+    <nav className="flex items-center justify-between px-2 sm:px-5 bg-main   py-1 border-b border-gray-400 fixed top-0 w-full">
       <Logo />
       <section className="hidden md:flex items-center gap-5 lg:gap-10  ">
         <NavbarRoute />

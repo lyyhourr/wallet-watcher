@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { fontText } from "@/fonts/Fonts";
-import { Toaster } from "react-hot-toast"
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Wallet Watcher",
@@ -15,6 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body className={`${fontText.className} bg-main  `}>
         <Toaster />
         {children}
