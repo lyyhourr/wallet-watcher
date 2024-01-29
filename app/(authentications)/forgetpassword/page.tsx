@@ -44,6 +44,7 @@ export default function Register() {
     }
     setIsLoading(false);
   };
+  console.log(location.origin);
 
   return (
     <AuthLayout
