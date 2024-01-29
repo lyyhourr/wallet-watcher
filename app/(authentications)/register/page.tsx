@@ -95,7 +95,7 @@ export default function Register() {
       title="Register"
       subTitle="Be Part of Something Special – Register Now"
       image="/images/auth/register.png"
-      route={{ href: "/login", title: "login" }}
+      route={{ href: "/dashboard", title: "login" }}
       footerTitle="Registering"
     >
       <form
