@@ -40,8 +40,7 @@ export default function Register() {
     ) {
       setMessage({ color: "red", msg: "All fields must be completed!" });
       return false;
-    }
-    else if (formData.password.length < 5) {
+    } else if (formData.password.length < 5) {
       setMessage({
         color: "red",
         msg: "Password must be more than 5 characters",
@@ -67,7 +66,8 @@ export default function Register() {
       email: formData.email,
       password: formData.password,
       options: {
-        emailRedirectTo: `${location.origin}/auth/callback`,
+        emailRedirectTo: `https://wallets-watcher.netlify.app/auth/callback`,
+        // emailRedirectTo: `${location.origin}/auth/callback`,
       },
     });
     const {

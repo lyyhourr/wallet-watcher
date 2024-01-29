@@ -33,7 +33,8 @@ export default function Register() {
 
     setIsLoading(true);
     const res = await supabase.auth.resetPasswordForEmail(formData.email, {
-      redirectTo: `${location.origin}/forgetpassword/resetpassword`,
+      redirectTo: `https://wallets-watcher.netlify.app/forgetpassword/resetpassword`,
+      //   redirectTo: `${location.origin}/forgetpassword/resetpassword`,
     });
 
     if (!res.error) {
@@ -44,7 +45,6 @@ export default function Register() {
     }
     setIsLoading(false);
   };
-  console.log(location.origin);
 
   return (
     <AuthLayout
