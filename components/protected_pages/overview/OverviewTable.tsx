@@ -59,9 +59,9 @@ const OverviewTable = ({
   const SumTotal = (type: string) => {
     const total = transactions
       ? transactions
-        ?.filter((item) => item.type === type)
-        .map((item) => Number(item.amount))
-        .reduce((a: number, b: number) => a + b, 0)
+          ?.filter((item) => item.type === type)
+          .map((item) => Number(item.amount))
+          .reduce((a: number, b: number) => a + b, 0)
       : 0;
     return total;
   };
@@ -104,7 +104,8 @@ const OverviewTable = ({
         .gte("date", `${year}-${currentMonthIndex + 1}-1T00:00:00.000Z`)
         .lte(
           "date",
-          `${year}-${currentMonthIndex + 1
+          `${year}-${
+            currentMonthIndex + 1
           }-${lastDateOfCurrentMonth}T00:00:00.000Z`
         );
       setTransaction(data ? data : []);

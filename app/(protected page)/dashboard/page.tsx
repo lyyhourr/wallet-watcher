@@ -31,6 +31,7 @@ const months = [
   "December",
 ];
 const FetchTableData = async () => {
+  const date = new Date();
   const currentMonth = new Date().getMonth() + 1;
   const cookieStore = cookies();
   const supabase = createServerComponentClient({ cookies: () => cookieStore });
@@ -38,12 +39,19 @@ const FetchTableData = async () => {
     data: { user },
   } = await supabase.auth.getUser();
   const username = user?.email?.slice(0, user?.email.indexOf("@"));
+  const lastDayOfMonth = new Date(date.getFullYear(), currentMonth, 0);
+  const lastDateOfCurrentMonth = lastDayOfMonth.toLocaleString(undefined, {
+    day: "numeric",
+  });
   const { data } = await supabase
     .from("transactions")
     .select("*")
     .eq("user_id", user?.id)
-    .gte("date", `2024-${currentMonth}-01T00:00:00.000Z`)
-    .lte("date", `2024-${currentMonth}-30T23:59:59.999Z`);
+    .gte("date", `${date.getFullYear()}-${currentMonth}-01T00:00:00.000Z`)
+    .lte(
+      "date",
+      `${date.getFullYear()}-${currentMonth}-${lastDateOfCurrentMonth}T23:59:59.999Z`
+    );
 
   const FetchGoal = await supabase
     .from("goal")
@@ -52,14 +60,12 @@ const FetchTableData = async () => {
   return { user, data, FetchGoal, username, currentMonth };
 };
 
-
 export default async function Dashboard() {
   const { FetchGoal, data, user, username, currentMonth } =
     await FetchTableData();
   const goalAmount = FetchGoal.data
     ?.map((item) => Number(item.amount))
     .reduce((a: number, b: number) => a + b, 0);
-  // const income = await SumTotal({ type: "income", data: data });
   const income = await data
     ?.filter((item: any) => item.type === "income")
     .map((item: any) => Number(item.amount))
