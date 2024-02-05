@@ -46,6 +46,7 @@ const Category = [
   "Freelance/Contract",
   "Business",
   "other",
+  "foods",
 ];
 
 const formatDate = (date: any) => {

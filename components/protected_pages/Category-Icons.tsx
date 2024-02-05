@@ -21,7 +21,7 @@ import { HiOutlineReceiptTax } from "react-icons/hi";
 import { TbHealthRecognition } from "react-icons/tb";
 import { GiClothes, GiLoveMystery, GiLovers } from "react-icons/gi";
 import { BiBookReader, BiMoneyWithdraw } from "react-icons/bi";
-import { CiGift } from "react-icons/ci";
+import { CiBurger, CiGift } from "react-icons/ci";
 import { LiaChildSolid, LiaMoneyBillAlt } from "react-icons/lia";
 import { PiDotsThreeCircleVerticalLight } from "react-icons/pi";
 
@@ -45,6 +45,7 @@ export const expenseCategories = [
   "Childcare",
   "Subscriptions",
   "other",
+  "foods",
 ];
 export const incomeCategories = [
   "Salary",
@@ -78,6 +79,7 @@ export const IconHandler = (cate: string) => (
     {cate === "Childcare" && <LiaChildSolid />}
     {cate === "Subscriptions" && <MdOutlineSubscriptions />}
     {cate === "other" && <PiDotsThreeCircleVerticalLight />}
+    {cate === "foods" && <CiBurger />}
 
     {/* incomes */}
     {cate === "Salary" && <RiMoneyDollarCircleLine />}

@@ -40,7 +40,6 @@ export default function CategorySelector({
   useEffect(() => {
     setFormData({ ...formData, category: value });
   }, [value]);
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -58,7 +57,7 @@ export default function CategorySelector({
         <Command>
           <CommandInput placeholder="Search Category..." />
           <CommandEmpty>No Category found.</CommandEmpty>
-          <CommandGroup className="h-[200px] overflow-auto">
+          <CommandGroup className="h-[200px] overflow-scroll">
             {category.map((cate) => (
               <CommandItem
                 key={cate}
