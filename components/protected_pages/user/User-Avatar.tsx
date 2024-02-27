@@ -81,6 +81,7 @@ export default function UserAvatar({ userId }: { userId: string }) {
         width={1000}
         height={1000}
         alt="user avatar"
+        unoptimized 
         className={cn(
           "w-[100px] h-[100px] rounded-full bg-cover",
           isLoading && "animate-pulse"
